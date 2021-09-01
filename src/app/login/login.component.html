@@ -1,0 +1,41 @@
+<div class="login-wrapper">
+    <div class="card">
+        <div class="card-body">
+            <main class="form-signin">
+                <form class="form-signin" (ngSubmit)="onSubmit(signInForm)" #signInForm="ngForm">
+                  <img class="mb-4 login-logo" src="../assets/main_logo.svg" alt="" width="72" height="57">
+                  <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+              
+                  <div class="form-floating">
+                    <input type="email" class="form-control" name="email" id="floatingInput" 
+                    placeholder="name@example.com" required autofocus ngModel>
+                    <label for="floatingInput">Email address</label>
+                  </div>
+                  <div class="form-floating">
+                    <input type="password" class="form-control" name="password" id="floatingPassword" 
+                    placeholder="Password" required ngModel>
+                    <label for="floatingPassword">Password</label>
+                  </div>
+              
+                  <div class="checkbox mb-3">
+                    <label>
+                      <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                  </div>
+                  <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+                  <div class="alert alert-danger" role ="alert" *ngIf="isFormInValid">
+                    Please fill all fields
+                  </div>
+
+                  <div class="alert alert-danger" role ="alert" *ngIf="areCredentialsInvalid">
+                    Invalid username and password
+                  </div>
+
+                  <p class="mt-5 mb-3 text-muted">&copy; 2021-2024</p>
+                </form>
+              </main>
+        </div>
+    </div>
+
+</div>
