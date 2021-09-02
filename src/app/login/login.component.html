@@ -5,7 +5,14 @@
                 <form class="form-signin" (ngSubmit)="onSubmit(signInForm)" #signInForm="ngForm">
                   <img class="mb-4 login-logo" src="../assets/main_logo.svg" alt="" width="72" height="57">
                   <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-              
+                  <div class="alert alert-danger" role ="alert" *ngIf="isFormInValid">
+                    Please fill all fields
+                  </div>
+
+                  <div class="alert alert-danger" role ="alert" *ngIf="areCredentialsInvalid">
+                    Invalid username and password
+                  </div>
+
                   <div class="form-floating">
                     <input type="email" class="form-control" name="email" id="floatingInput" 
                     placeholder="name@example.com" required autofocus ngModel>
@@ -24,18 +31,12 @@
                   </div>
                   <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
 
-                  <div class="alert alert-danger" role ="alert" *ngIf="isFormInValid">
-                    Please fill all fields
-                  </div>
-
-                  <div class="alert alert-danger" role ="alert" *ngIf="areCredentialsInvalid">
-                    Invalid username and password
-                  </div>
-
-                  <p class="mt-5 mb-3 text-muted">&copy; 2021-2024</p>
                 </form>
+                <button routerLink="/register" class="w-100 btn btn-lg btn-success" >Register</button>
+                <p class="mt-2 mb-3 text-muted">&copy; 2021-2024</p>
               </main>
         </div>
     </div>
 
 </div>
+

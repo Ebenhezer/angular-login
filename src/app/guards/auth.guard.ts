@@ -13,6 +13,10 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      if (sessionStorage.getItem("apiKey")){
+        return true;
+      }
+
       if(this.authenticationService.isAuthenticated){
         return true
       }

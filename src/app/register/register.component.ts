@@ -4,24 +4,18 @@ import { SignInData } from '../model/signInData';
 import { AuthenticationService } from '../service/authentication/authentication.service';
 
 @Component({
-  selector: 'cf-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'cf-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   isFormInValid = false;
   areCredentialsInvalid = false;
 
-  constructor(private authenticationService: AuthenticationService) { 
-    // To disable the navigation bar
-    sessionStorage.clear();
-  }
+  constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
-    // To disable the navigation bar
-    sessionStorage.clear();
   }
-  
   onSubmit(signInForm: NgForm){
     
     if(!signInForm.valid){
@@ -40,4 +34,5 @@ export class LoginComponent implements OnInit {
       this.areCredentialsInvalid= true;
     }
   }
+
 }

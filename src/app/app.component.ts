@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'spoiler';
 
   constructor(public authenticationService: AuthenticationService){
-
+    console.log(this.authenticationService.isAuthenticated);
   }
 
   logout(){

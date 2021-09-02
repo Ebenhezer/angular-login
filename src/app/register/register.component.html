@@ -1,0 +1,78 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <div class="register-wrapper">
+        <div class="card">
+            <div class="card-body">
+                <main class="form-signin">
+                    <form class="form-signin" (ngSubmit)="onSubmit(signInForm)" #signInForm="ngForm">
+                      <img class="mb-4 login-logo" src="../assets/main_logo.svg" alt="" width="72" height="57">
+                      <h1 class="h3 mb-3 fw-normal">Sign up</h1>
+                      <div class="alert alert-danger" role ="alert" *ngIf="isFormInValid">
+                        Please fill all fields
+                      </div>
+    
+                      <div class="alert alert-danger" role ="alert" *ngIf="areCredentialsInvalid">
+                        Invalid username and password
+                      </div>
+                      <div class="form-floating">
+                        <input type="text" class="form-control" name="firstname" id="floatingFirstname" 
+                        placeholder="Firstname" required ngModel>
+                        <label for="floatingPassword">Firstname</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="text" class="form-control" name="lastname" id="floatingLastname" 
+                        placeholder="Lastname" required ngModel>
+                        <label for="floatingLastname">Lastname</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="email" class="form-control" name="email" id="floatingInput" 
+                        placeholder="name@example.com" required autofocus ngModel>
+                        <label for="floatingInput">Email address</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="password" class="form-control" name="password" id="floatingPassword" 
+                        placeholder="Password" required ngModel>
+                        <label for="floatingPassword">Password</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="password" class="form-control" name="password" id="floatingPassword" 
+                        placeholder="Password" required ngModel>
+                        <label for="floatingPassword">Password</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="password" class="form-control" name="password" id="floatingPassword" 
+                        placeholder="Password" required ngModel>
+                        <label for="floatingPassword">Password</label>
+                      </div>
+                      <div class="form-group input-group">
+                        
+                        <select class="form-control">
+                            <option selected="">Select gender</option>
+                            <option>Female</option>
+                            <option>Male</option>
+                            <option>N/A</option>
+                        </select>
+                    </div>
+                  
+                    <button routerLink="register" class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+    
+                    </form>
+                    <button routerLink="/login" class="w-100 btn btn-lg btn-success" type="submit">Back to login</button>
+                    <!-- <p class="divider-text">
+                        <span class="bg-light">OR</span>
+                    </p> -->
+                    <p>
+                        <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
+                        <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
+                    </p>
+
+                    <p class="mt-2 mb-3 text-muted">&copy; 2021-2030</p>
+                  </main>
+            </div>
+        </div>
+    
+    </div>                                                                
