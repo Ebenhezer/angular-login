@@ -11,6 +11,7 @@ import { AuthenticationService } from '../service/authentication/authentication.
 export class LoginComponent implements OnInit {
   isFormInValid = false;
   areCredentialsInvalid = false;
+  response_message:string = '';
 
   constructor(private authenticationService: AuthenticationService) { 
     // To disable the navigation bar
@@ -38,6 +39,10 @@ export class LoginComponent implements OnInit {
     if(!this.authenticationService.authenticate(signInData)){
       this.isFormInValid = false;
       this.areCredentialsInvalid= true;
+      this.response_message = this.authenticationService.response_message
+      if(this.response_message.length == 0){
+        this.response_message = "Failed to register account";
+      }
     }
   }
 }

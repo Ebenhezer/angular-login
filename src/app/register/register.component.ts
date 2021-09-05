@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { SignInData } from '../model/signInData';
+import { SignUpData } from 'src/app/model/signUpData';
 import { AuthenticationService } from '../service/authentication/authentication.service';
 
 @Component({
@@ -11,27 +11,39 @@ import { AuthenticationService } from '../service/authentication/authentication.
 export class RegisterComponent implements OnInit {
   isFormInValid = false;
   areCredentialsInvalid = false;
-
+  response_message:string;
   constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
   }
-  onSubmit(signInForm: NgForm){
+  onSubmit(signUpForm: NgForm){
     
-    if(!signInForm.valid){
+    if(!signUpForm.valid){
       this.isFormInValid = true;
       this.areCredentialsInvalid = false;
       return;
     }
-    this.checkCredentials(signInForm);
+    this.checkData(signUpForm);
   }
 
-  private checkCredentials(signInForm: NgForm){
-    const signInData = new SignInData(signInForm.value.email, signInForm.value.password);
+  private checkData(signUpForm: NgForm){
+    const signUpData = new SignUpData(signUpForm.value.firstname, 
+      signUpForm.value.lastname,
+      signUpForm.value.email,
+      signUpForm.value.password,
+      signUpForm.value.gender,
+      signUpForm.value.lastname);
     
-    if(!this.authenticationService.authenticate(signInData)){
+    var register = this.authenticationService.signUp(signUpData);
+
+    if(!register){
       this.isFormInValid = false;
       this.areCredentialsInvalid= true;
+      this.authenticationService.api_failed_message.subscribe(response_message => this.response_message = response_message);
+
+      if(this.response_message.length == 0){
+        this.response_message = "Failed to register account";
+      }
     }
   }
 

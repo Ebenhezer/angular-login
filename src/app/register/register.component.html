@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <main class="form-signin">
-                    <form class="form-signin" (ngSubmit)="onSubmit(signInForm)" #signInForm="ngForm">
+                    <form class="form-signin" (ngSubmit)="onSubmit(signUpForm)" #signUpForm="ngForm">
                       <img class="mb-4 login-logo" src="../assets/main_logo.svg" alt="" width="72" height="57">
                       <h1 class="h3 mb-3 fw-normal">Sign up</h1>
                       <div class="alert alert-danger" role ="alert" *ngIf="isFormInValid">
@@ -16,7 +16,7 @@
                       </div>
     
                       <div class="alert alert-danger" role ="alert" *ngIf="areCredentialsInvalid">
-                        Invalid username and password
+                        {{ response_message }} 
                       </div>
                       <div class="form-floating">
                         <input type="text" class="form-control" name="firstname" id="floatingFirstname" 
@@ -39,7 +39,7 @@
                         <label for="floatingPassword">Password</label>
                       </div>
                       <div class="form-floating">
-                        <input type="password" class="form-control" name="password" id="floatingCPassword" 
+                        <input type="password" class="form-control" name="cpassword" id="floatingCPassword" 
                         placeholder="Password" required ngModel>
                         <label for="floatingPassword">Password</label>
                       </div>
@@ -50,15 +50,15 @@
                       </div>
                       <div class="form-group input-group">
                         
-                        <select class="form-control">
-                            <option selected="">Select gender</option>
-                            <option>Female</option>
-                            <option>Male</option>
-                            <option>N/A</option>
+                        <select class="form-control" name="gender" placeholder="Gender" ngModel required>
+                          <option value="" disabled selected>Select gender</option>
+                          <option value="Male">Female</option>
+                          <option value="Female">Male</option>
+                          <option value="NA">N/A</option>
                         </select>
                     </div>
                   
-                    <button routerLink="register" class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+                    <button routerLink="/register" class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
     
                     </form>
                     <button routerLink="/login" class="w-100 btn btn-lg btn-success" type="submit">Back to login</button>
