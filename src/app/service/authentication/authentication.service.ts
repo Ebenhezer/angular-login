@@ -46,7 +46,6 @@ export class AuthenticationService {
 
     this.login(payload).subscribe(
       response => {
-        console.log(response)
         if(response.access_token){
           sessionStorage.setItem("apiKey", response.access_token);
           sessionStorage.setItem("isAuthenticated", "true");
@@ -57,6 +56,10 @@ export class AuthenticationService {
         else if (response.failed){
           this.responseMesage(response.failed);
           return false;
+        }
+        else{
+          sessionStorage.setItem("isAuthenticated", "false");
+          this.isAuthenticated = "false";
         }
       },
       err => {
@@ -79,23 +82,28 @@ export class AuthenticationService {
       "cellphone": signUpData.getCellphone()
     };
 
-    if(this.isAuthenticated == "true"){
+    // if(this.isAuthenticated == "true"){
 
-      sessionStorage.setItem("isAuthenticated", "true");
-      this.router.navigate(['home'])
-      return true;
-    }
+    //   sessionStorage.setItem("isAuthenticated", "true");
+    //   this.router.navigate(['home'])
+    //   return true;
+    // }
 
     this.register(payload).subscribe(
       response => {
         if(response.success){
           sessionStorage.setItem("apiKey", response.access_token);
-          this.router.navigate(['login'])
+          console.log(response);
+          this.router.navigate(['login']);
           return true;
         }
         else if(response.failed){
+          console.log(response);
           this.responseMesage(response.failed);
           return false;
+        }
+        else{
+          this.responseMesage(response);
         }
       },
       err => {
