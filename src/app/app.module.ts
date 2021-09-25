@@ -9,6 +9,12 @@ import { HomeComponent } from './home/home.component';
 import { SensorsComponent } from './sensors/sensors.component';
 import { RegisterComponent } from './register/register.component';
 import { HttpClientModule } from '@angular/common/http';
+import { GpsComponent } from './gps/gps.component';
+import { WorkstationsComponent } from './workstations/workstations.component';
+import { ProfileComponent } from './profile/profile.component';
+import { SwitchesComponent } from './switches/switches.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { LiveComponent } from './live/live.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +22,13 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     HomeComponent,
     SensorsComponent,
-    RegisterComponent
+    RegisterComponent,
+    GpsComponent,
+    WorkstationsComponent,
+    ProfileComponent,
+    SwitchesComponent,
+    NotificationsComponent,
+    LiveComponent
   ],
   imports: [
     BrowserModule,
