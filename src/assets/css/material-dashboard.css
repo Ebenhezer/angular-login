@@ -2867,11 +2867,7 @@ fieldset:disabled a.btn {
   box-shadow: none;
 }
 
-.btn-primary:hover {
-  color: #ffffff;
-  background-color: #0c83e2;
-  border-color: #0c7cd5;
-}
+
 
 .btn-primary:focus,
 .btn-primary.focus {
