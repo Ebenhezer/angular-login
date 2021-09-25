@@ -18,7 +18,7 @@ const httpOptions = {
 export class AuthenticationService {
 
   isAuthenticated = sessionStorage.getItem("isAuthenticated");
-
+  
   private message = new BehaviorSubject<string>("");
   api_failed_message = this.message.asObservable();
 
@@ -37,12 +37,12 @@ export class AuthenticationService {
       "password": signInData.getPassword(),
     };
 
-    if(this.isAuthenticated == "true"){
+    // if(this.isAuthenticated == "true"){
 
-      sessionStorage.setItem("isAuthenticated", "true");
-      this.router.navigate(['home'])
-      return true;
-    }
+    //   sessionStorage.setItem("isAuthenticated", "true");
+    //   this.router.navigate(['home'])
+    //   return true;
+    // }
 
     this.login(payload).subscribe(
       response => {
@@ -93,12 +93,10 @@ export class AuthenticationService {
       response => {
         if(response.success){
           sessionStorage.setItem("apiKey", response.access_token);
-          console.log(response);
           this.router.navigate(['login']);
           return true;
         }
         else if(response.failed){
-          console.log(response);
           this.responseMesage(response.failed);
           return false;
         }
