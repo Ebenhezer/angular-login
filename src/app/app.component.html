@@ -1,46 +1,106 @@
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Spoiler Dashboard
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+</head>
+<div class="d-flex" id="wrapper" >
+  <!-- Sidebar -->
+  <div *ngIf = "authenticationService.isAuthenticated" class=" border-right" data-color="purple" 
+      data-background-color="white" id="sidebar-wrapper"  [ngClass]="status ? 'hide' : 'show'">
+    <div class="sidebar-logo">
+      <a href="/"><img  class="logo" src="../assets/img/main_logo.svg" alt="logo"></a>
+    </div>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary" *ngIf = "authenticationService.isAuthenticated">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/home">Spoiler Interface</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/home">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/sensors">Sensors</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-light" type="submit">Search</button>
-      </form>
-
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item pointer">
-          <a (click)="logout()" class="nav-link">Logout</a>
-        </li>
-      </ul>
+    <div class="list-group list-group-flush ">
+      <a href="/home" class="list-group-item list-group-item-action">
+        <p><i class="material-icons">dashboard</i> Dashboard</p>
+      </a>
+      <a href="/switch" class="list-group-item list-group-item-action">
+        <p><i class="material-icons">toggle_on</i> Switches</p>
+      </a>
+      <a href="/sensor" class="list-group-item list-group-item-action">
+        <p><i class="material-icons">sensors</i> Sensors</p>
+      </a>
+      <a href="/workstations" class="list-group-item list-group-item-action">
+        <p><i class="material-icons">computer</i> Dashboard</p>
+      </a>
+      <a href="/gps" class="list-group-item list-group-item-action">
+        <p><i class="material-icons">share_location</i> GPS</p>
+      </a>
+      <hr>
+      <a href="/notifications" class="list-group-item list-group-item-action">
+        <p><i class="material-icons">notifications</i> Notification</p>
+      </a>
+      <a href="/live" class="list-group-item list-group-item-action t">
+        <p><i class="material-icons">stream</i> Live info</p>
+      </a>
+      <a href="/profile" class="list-group-item list-group-item-action">
+        <p><i class="material-icons">person</i> Profile</p>
+      </a>
+      <hr>
+      <a (click)="logout()" class="list-group-item list-group-item-action">
+        <p><i class="material-icons">key</i> Logout</p>
+      </a>
     </div>
   </div>
-</nav>
-
-
-<router-outlet></router-outlet>
+  <!-- /#sidebar-wrapper -->
+  <!-- Page Content -->
+  <div id="page-content-wrapper" >
+    <nav *ngIf = "authenticationService.isAuthenticated" class="navbar navbar-light bg-light">
+     
+      <div class="container-fluid">
+        <button class="btn btn-menu btn-primary" (click)="clickEvent()"> Menu</button>
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Docs</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Support</a>
+            </li>
+          </ul>
+          <li class="nav-item dropdown d-flex" >
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="material-icons">settings</i> Settings
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+            </ul>
+          </li>
+        </div> -->
+      </div>
+    </nav>
+    <router-outlet></router-outlet>
+  </div>
+  
+  <!-- /#page-content-wrapper -->
+</div>
+<!-- /#wrapper -->

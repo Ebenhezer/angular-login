@@ -4,13 +4,17 @@ import { AuthenticationService } from './service/authentication/authentication.s
 @Component({
   selector: 'cf-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss',"../assets/css/material-dashboard.css"]
 })
 export class AppComponent {
   title = 'spoiler';
 
   constructor(public authenticationService: AuthenticationService){
 
+  }
+  status: boolean = false;
+  clickEvent(){
+      this.status = !this.status;   
   }
 
   logout(){

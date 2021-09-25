@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="443.161" height="264.31" viewBox="0 0 443.161 264.31">
+  <g id="Group_5" data-name="Group 5" transform="translate(-64.839 -71.158)">
+    <text id="Spoiler" transform="translate(293 195)" fill="#707070" font-size="65" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">Spoiler</tspan></text>
+    <g id="Group_4" data-name="Group 4" transform="translate(-2 2)">
+      <g id="Group_1" data-name="Group 1" transform="translate(104.045 -56.888) rotate(25)">
+        <circle id="ic_fiber_manual_record_24px" cx="40" cy="40" r="40" transform="translate(165.974 149.74)" fill="#238c6d"/>
+        <path id="ic_donut_large_24px" d="M64.119,23.066V2A69.22,69.22,0,0,0,19.368,25,68.121,68.121,0,0,0,2,70.4c0,29.179,14.235,52.557,40.33,62.581A93.874,93.874,0,0,0,55.2,137.184l1.784-21.413c-4.245-.673-4.611-2.247-8.922-4.334-15.525-7.51-25.359-21.9-25.359-41.041C22.706,46.321,43.413,26.349,64.119,23.066Zm55.01,40.491h20.913C136.8,29.359,112.434,5.215,77.923,2V23.066C98.63,26.007,116.161,43.038,119.129,63.557ZM72.277,119.013l.071,19.6c34.511-3.215,64.45-27.182,67.694-61.38H119.129c-2.659,18.385-17.01,33.969-35.115,39.2C82.2,116.963,74.431,118.707,72.277,119.013Z" transform="translate(133.945 119.94)" fill="rgba(45,40,40,0.75)"/>
+        <circle id="ic_fiber_manual_record_24px-2" data-name="ic_fiber_manual_record_24px" cx="25" cy="25" r="25" transform="translate(168.425 278.857)" fill="#0e6048"/>
+        <circle id="ic_fiber_manual_record_24px-3" data-name="ic_fiber_manual_record_24px" cx="25" cy="25" r="25" transform="translate(182.995 53.745)" fill="#0e6048"/>
+        <circle id="ic_fiber_manual_record_24px-4" data-name="ic_fiber_manual_record_24px" cx="20" cy="20" r="20" transform="translate(98.738 259.783)" fill="#0e6048"/>
+        <circle id="ic_fiber_manual_record_24px-5" data-name="ic_fiber_manual_record_24px" cx="25" cy="25" r="25" transform="translate(290.974 165.439)" fill="#0e6048"/>
+      </g>
+      <g id="Group_3" data-name="Group 3">
+        <path id="ic_sort_24px" d="M3,6V9H43V6Z" transform="matrix(0.819, 0.574, -0.574, 0.819, 106.822, 252.289)" fill="#0e6048"/>
+        <path id="ic_sort_24px-2" data-name="ic_sort_24px" d="M3,6V8.727H55.59V6H3Z" transform="translate(194.915 234.407) rotate(120)" fill="rgba(14,96,72,0.92)"/>
+        <path id="ic_sort_24px-3" data-name="ic_sort_24px" d="M3,6V8.727H53.866V6H3Z" transform="matrix(-0.438, 0.899, -0.899, -0.438, 259.092, 120.479)" fill="rgba(14,96,72,0.92)"/>
+        <path id="ic_sort_24px-4" data-name="ic_sort_24px" d="M3,6V8.727H48.579V6H3Z" transform="translate(286.896 246.313) rotate(-155)" fill="rgba(14,96,72,0.92)"/>
+      </g>
+    </g>
+  </g>
+</svg>
