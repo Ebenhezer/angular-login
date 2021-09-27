@@ -1,13 +1,7 @@
 {
-    "online":{
-        "server_name": "Spoiler Website (Online)" ,
-        "server_ip": "https://spoilerza.co.za/interface/" ,
-        "server_port": ""
-    },
-    "local":{
-        "server_name": "Spoiler Website (Online)" ,
-        "server_ip": "http://192.168.50.142/interface/" ,
-        "server_port": ""
-    }
+  
+    "server_name": "Spoiler Website (Offline)" ,
+    "server_ip": "http://192.168.50.142/interface/" ,
+    "server_port": ""
     
 }

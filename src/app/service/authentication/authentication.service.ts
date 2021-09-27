@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import * as server from "../../../assets/config/server.json";
 
 // const AUTH_API = 'http://192.168.50.142/interface/';
-const AUTH_API = server.local.server_ip;
+const AUTH_API = server.server_ip;
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})

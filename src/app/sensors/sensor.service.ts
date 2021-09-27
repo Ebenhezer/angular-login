@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import * as server from "../../assets/config/server.json";
 
 // const AUTH_API = 'http://192.168.50.142/interface/';
-const AUTH_API = server.local.server_ip;
+const AUTH_API = server.server_ip;
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +20,6 @@ export class SensorService {
     'min_epoch_tm_sec': 1628353097,
     'max_epoch_tm_sec': 1999999999 
   };
-  // request_body:any ={
-  //   'min_epoch_tm_sec': 1628353097,
-  //   'max_epoch_tm_sec': 1999999999
-  // }
   request_body = new HttpParams()
       .append('api_key', this.apiKey)
       .append('min_epoch_tm_sec', '1628353097')
@@ -67,13 +63,14 @@ export class SensorService {
         var errorMessage = err.error.message;
         console.log(errorMessage)
       }
-      );
+    );
     return false;
-    }
+  }
 
   sensorList(payload): Observable<any> {
     return this.http.get(AUTH_API + 'sensor/list',{params: payload});
   }
+
   getListOfSensors(){
     this.sensorList(this.payload).subscribe(
       response => {
@@ -97,7 +94,7 @@ export class SensorService {
         var errorMessage = err.error.message;
         console.log(errorMessage)
       }
-      );
+    );
     return false;
     }
 

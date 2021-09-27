@@ -23,14 +23,24 @@ export class HomeComponent implements OnInit {
               private sensorService: SensorService,
               private switchService: SwitchesService,
               private gpsService: GpsService,
-              private workdstationService: WorkstationsService) { }
+              private workstationService: WorkstationsService) { }
 
   ngOnInit(): void {
     const profileData = this.dataService.getProfile();
     this.dataService.profileData.subscribe(response_message => this.response_message = response_message);
 
-    const sCountData = this.sensorService.countSensors();
+    const sCountSensor = this.sensorService.countSensors();
     this.sensorService.sCountData.subscribe(response_message => this.sensors = response_message);
+
+    const sCountSwitches = this.switchService.countSwitches();
+    this.switchService.sCountSwitches.subscribe(response_message => this.switches = response_message);
+
+    const sCountGps = this.gpsService.countGps();
+    this.gpsService.sCountGps.subscribe(response_message => this.gps = response_message);
+
+    const sCountData = this.workstationService.countWorkstations();
+    this.workstationService.sCountWorkstation.subscribe(response_message => this.workstations = response_message);
+
 
   }
 
