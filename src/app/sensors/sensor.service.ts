@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import * as server from "../../assets/config/server.json";
 
-const AUTH_API = 'http://192.168.50.142/interface/';
+// const AUTH_API = 'http://192.168.50.142/interface/';
+const AUTH_API = server.local.server_ip;
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +16,20 @@ export class SensorService {
 
   apiKey= sessionStorage.getItem("apiKey");
   payload ={
-    "api_key":this.apiKey 
+    "api_key":this.apiKey,
+    'min_epoch_tm_sec': 1628353097,
+    'max_epoch_tm_sec': 1999999999 
   };
+  // request_body:any ={
+  //   'min_epoch_tm_sec': 1628353097,
+  //   'max_epoch_tm_sec': 1999999999
+  // }
+  request_body = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('min_epoch_tm_sec', '1628353097')
+      .append('max_epoch_tm_sec', '1999999999');
+
+  body=JSON.stringify(this.request_body);
 
   private message = new BehaviorSubject<string>("");
   profileData = this.message.asObservable();
@@ -37,13 +51,10 @@ export class SensorService {
       response => {
         console.log(response);
         if(response.sensors){
-          // sessionStorage.setItem("apiKey", response.access_token);
           this.sCountResponse(response);
-          console.log(response);
           return true;
         }
         else if(response.failed){
-          console.log(response);
           this.sCountResponse(response.failed);
           return false;
         }
@@ -91,11 +102,13 @@ export class SensorService {
     }
 
   sensorHistory(payload): Observable<any> {
-    return this.http.get(AUTH_API + 'sensor/history',{params: payload});
+    //return this.http.post<any>(AUTH_API + 'sensor/data',{params: payload });
+    return this.http.post<any>(AUTH_API + 'sensor/data', payload, { params: this.request_body, });
   }
   getSensorHistory(){
-    this.sensorList(this.payload).subscribe(
+    this.sensorHistory(this.body).subscribe(
       response => {
+        console.log(response);
         if(response[0].sensor_id){
           // sessionStorage.setItem("apiKey", response.access_token);
           this.sHistoryResponse(response);
@@ -118,6 +131,11 @@ export class SensorService {
       }
       );
     return false;
+    // this.http
+    //   .post<any>(AUTH_API + 'sensor/data', this.body, {
+    //     params: this.request_body,
+    //   })
+    //   .subscribe((res) => console.log(res));
     }
 
 

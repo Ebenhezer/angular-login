@@ -28,11 +28,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     const profileData = this.dataService.getProfile();
     this.dataService.profileData.subscribe(response_message => this.response_message = response_message);
-    console.log(profileData);
 
     const sCountData = this.sensorService.countSensors();
     this.sensorService.sCountData.subscribe(response_message => this.sensors = response_message);
-    console.log(sCountData);
 
   }
 

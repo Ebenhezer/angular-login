@@ -5,8 +5,10 @@ import { SignUpData } from 'src/app/model/signUpData';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
+import * as server from "../../../assets/config/server.json";
 
-const AUTH_API = 'http://192.168.50.142/interface/';
+// const AUTH_API = 'http://192.168.50.142/interface/';
+const AUTH_API = server.local.server_ip;
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -25,6 +27,7 @@ export class AuthenticationService {
   constructor(private router: Router, private http: HttpClient) { }
 
   login(payload): Observable<any> {
+    console.log(AUTH_API);
     return this.http.post(AUTH_API + 'login', payload, httpOptions);
   }
   register(payload): Observable<any> {
