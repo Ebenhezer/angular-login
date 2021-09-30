@@ -56,6 +56,14 @@ export class HomeComponent implements OnInit {
     this.getSensorData();
     this.getSensorList();
 
+    this.getSwitchList();
+    this.getSwitchData();
+
+    this.getWorkstationList();
+    this. getWorkstationData();
+
+    this.getGpsList();
+    this.getGpsData();
 
   }
 
@@ -67,6 +75,39 @@ export class HomeComponent implements OnInit {
   getSensorData(){
     const sHistoryData = this.sensorService.getSensorHistory();
     this.sensorService.sHistoryData.subscribe(response_message => this.sensorData = response_message);
+    console.log(sHistoryData);
+  }
+
+  getSwitchList(){
+    const sList = this.switchService.getListOfSwitches();
+    this.sensorService.sListData.subscribe(response_message => this.switchList = response_message);
+
+  }
+  getSwitchData(){
+    const sHistoryData = this.switchService.getSwitchHistory();
+    this.switchService.sHistoryData.subscribe(response_message => this.switchData = response_message);
+    console.log(sHistoryData);
+  }
+
+  getWorkstationList(){
+    const sList = this.workstationService.getListOfWorkstation();
+    this.workstationService.sListData.subscribe(response_message => this.workstationList = response_message);
+
+  }
+  getWorkstationData(){
+    const sHistoryData = this.workstationService.getWorkstationHistory();
+    this.workstationService.sHistoryData.subscribe(response_message => this.workstationData = response_message);
+    console.log(sHistoryData);
+  }
+
+  getGpsList(){
+    const sList = this.gpsService.getListOfGps();
+    this.gpsService.sListData.subscribe(response_message => this.sensorList = response_message);
+
+  }
+  getGpsData(){
+    const sHistoryData = this.gpsService.getGpsHistory();
+    this.gpsService.sHistoryData.subscribe(response_message => this.gpsData = response_message);
     console.log(sHistoryData);
   }
 
