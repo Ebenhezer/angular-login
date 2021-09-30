@@ -4,7 +4,8 @@ import { SensorService } from './sensor.service';
 @Component({
   selector: 'cf-sensors',
   templateUrl: './sensors.component.html',
-  styleUrls: ['./sensors.component.scss']
+  styleUrls: ['./sensors.component.scss',
+              '../../assets/css/material-dashboard.css']
 })
 export class SensorsComponent implements OnInit {
   nrOfSensors: any = 0;
@@ -26,6 +27,10 @@ export class SensorsComponent implements OnInit {
     const sHistoryData = this.sensorService.getSensorHistory();
     this.sensorService.sHistoryData.subscribe(response_message => this.sensorHistory = response_message);
     console.log(sHistoryData);
+  }
+
+  openModal(){
+    
   }
 
   
