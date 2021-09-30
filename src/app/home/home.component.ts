@@ -15,9 +15,20 @@ export class HomeComponent implements OnInit {
   response_message:any = '';
   
   sensors:any = 0;
+  sensorList: any = 0;
+  sensorData: any  = 0;
+
   gps: any = 0;
+  gpsList: any = 0;
+  gpsData: any  = 0;
+
   switches:any = 0;
+  switchList: any = 0;
+  switchData: any  = 0;
+
   workstations:any = 0;
+  workstationList: any = 0;
+  workstationData: any  = 0;
 
   constructor(private dataService: DataService,
               private sensorService: SensorService,
@@ -26,6 +37,7 @@ export class HomeComponent implements OnInit {
               private workstationService: WorkstationsService) { }
 
   ngOnInit(): void {
+
     const profileData = this.dataService.getProfile();
     this.dataService.profileData.subscribe(response_message => this.response_message = response_message);
 
@@ -41,7 +53,21 @@ export class HomeComponent implements OnInit {
     const sCountData = this.workstationService.countWorkstations();
     this.workstationService.sCountWorkstation.subscribe(response_message => this.workstations = response_message);
 
+    this.getSensorData();
+    this.getSensorList();
 
+
+  }
+
+  getSensorList(){
+    const sList = this.sensorService.getListOfSensors();
+    this.sensorService.sListData.subscribe(response_message => this.sensorList = response_message);
+
+  }
+  getSensorData(){
+    const sHistoryData = this.sensorService.getSensorHistory();
+    this.sensorService.sHistoryData.subscribe(response_message => this.sensorData = response_message);
+    console.log(sHistoryData);
   }
 
 

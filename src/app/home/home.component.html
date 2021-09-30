@@ -75,9 +75,9 @@
       <!-- End of the device details and cards -->
 
       <div class="row">
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-12 col-md-12">
           <div class="card">
-            <div class="card-header card-header-tabs card-header-primary">
+            <div class="card-header card-header-tabs card-header-success">
               <div class="nav-tabs-navigation">
                 <div class="nav-tabs-wrapper">
                   <span class="nav-tabs-title">Notifications</span>
@@ -117,11 +117,12 @@
             </div>
           </div>
         </div>
+        
         <div class="col-lg-6 col-md-12">
           <div class="card">
             <div class="card-header card-header-warning">
-              <h4 class="card-title">Device updates</h4>
-              <p class="card-category">Recent updates </p>
+              <h4 class="card-title">Sensor updates</h4>
+              <!-- <p class="card-category">Recent updates </p> -->
             </div>
             <div class="card-body table-responsive">
               <table class="table table-hover">
@@ -131,23 +132,99 @@
                   <th>Status</th>
                   <th>Last update time</th>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>1254554545454</td>
-                    <td>Outside sensor</td>
+                <tbody *ngFor="let sensor of sensorData;">
+                  <tr *ngFor="let data of sensor.data;">
+                    <td>{{sensor.sensor_id}}</td>
+                    <td>{{sensor.sensor_name}}</td>
                     <td>Offline</td>
-                    <td>2021-09-22T17:26:32</td>
-                  </tr>
-                  <tr>
-                    <td>1254554545454</td>
-                    <td>Outside sensor</td>
-                    <td>Online</td>
-                    <td>2021-09-22T17:26:32</td>
+                    <td>{{data.update_time}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
+
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-danger">
+              <h4 class="card-title">Switch updates</h4>
+              <!-- <p class="card-category">Recent updates </p> -->
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                  <th>Device ID</th>
+                  <th>Device Name</th>
+                  <th>Status</th>
+                  <th>Last update time</th>
+                </thead>
+                <tbody *ngFor="let switch of switchData;">
+                  <tr *ngFor="let data of switch.data;">
+                    <td>{{switch.switch_id}}</td>
+                    <td>{{switch.switch_name}}</td>
+                    <td>Offline</td>
+                    <td>{{data.update_time}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Workstation</h4>
+              <!-- <p class="card-category">Recent updates </p> -->
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                  <th>Device ID</th>
+                  <th>Device Name</th>
+                  <th>Status</th>
+                  <th>Last update time</th>
+                </thead>
+                <tbody *ngFor="let workstation of workstationData;">
+                  <tr *ngFor="let data of workstation.data;">
+                    <td>{{workstation.ws_id}}</td>
+                    <td>{{workstation.ws_name}}</td>
+                    <td>Offline</td>
+                    <td>{{data.update_time}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Workstation</h4>
+              <!-- <p class="card-category">Recent updates </p> -->
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                  <th>Device ID</th>
+                  <th>Device Name</th>
+                  <th>Status</th>
+                  <th>Last update time</th>
+                </thead>
+                <tbody *ngFor="let gps of gpsData;">
+                  <tr *ngFor="let data of gps.data;">
+                    <td>{{gps.gps_id}}</td>
+                    <td>{{gps.gps_name}}</td>
+                    <td>Offline</td>
+                    <td>{{data.update_time}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
   </div>
