@@ -46,16 +46,21 @@ export class SensorService {
     this.sensors(this.payload).subscribe(
       response => {
         console.log(response);
-        if(response.sensors){
-          this.sCountResponse(response);
-          return true;
-        }
-        else if(response.failed){
-          this.sCountResponse(response.failed);
-          return false;
-        }
-        else{
-          this.sCountResponse(response);
+        try {
+          if(response.sensors){
+            this.sCountResponse(response);
+            return true;
+          }
+          else if(response.failed){
+            this.sCountResponse(response.failed);
+            return false;
+          }
+          else{
+            this.sCountResponse(response);
+          }
+        }catch (e){
+          console.log("Not authenticated")
+          this.router.navigate(['login'])
         }
       },
       err => {
@@ -74,23 +79,27 @@ export class SensorService {
   getListOfSensors(){
     this.sensorList(this.payload).subscribe(
       response => {
-        if(response[0].sensor_id){
-          // sessionStorage.setItem("apiKey", response.access_token);
-          this.sListResponse(response);
-          console.log(response);
-          return true;
-        }
-        else if(response.failed){
-          console.log(response);
-          this.sListResponse(response.failed);
-          return false;
-        }
-        else{
-          this.sListResponse(response);
+        try {
+          if(response[0].sensor_id){
+            // sessionStorage.setItem("apiKey", response.access_token);
+            this.sListResponse(response);
+            console.log(response);
+            return true;
+          }
+          else if(response.failed){
+            console.log(response);
+            this.sListResponse(response.failed);
+            return false;
+          }
+          else{
+            this.sListResponse(response);
+          }
+        }catch (e){
+          console.log("Not authenticated")
+          this.router.navigate(['login'])
         }
       },
       err => {
-        console.log(err)
         var errorMessage = err.error.message;
         console.log(errorMessage)
       }
@@ -106,19 +115,23 @@ export class SensorService {
     this.sensorHistory(this.body).subscribe(
       response => {
         console.log(response);
-        if(response[0].sensor_id){
-          // sessionStorage.setItem("apiKey", response.access_token);
-          this.sHistoryResponse(response);
-          console.log(response);
-          return true;
-        }
-        else if(response.failed){
-          console.log(response);
-          this.sHistoryResponse(response.failed);
-          return false;
-        }
-        else{
-          this.sHistoryResponse(response);
+        try {
+          if(response[0].sensor_id){
+            // sessionStorage.setItem("apiKey", response.access_token);
+            this.sHistoryResponse(response);
+            console.log(response);
+            return true;
+          }
+          else if(response.failed){
+            console.log(response);
+            this.sHistoryResponse(response.failed);
+            return false;
+          }
+          else{
+            this.sHistoryResponse(response);
+          }
+        }catch(e){
+          this.router.navigate(['login'])
         }
       },
       err => {
