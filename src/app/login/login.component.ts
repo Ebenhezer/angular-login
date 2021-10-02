@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   isFormInValid = false;
   areCredentialsInvalid = false;
   response_message:string = '';
+  check_status: any;
 
   constructor(private authenticationService: AuthenticationService) { 
     // To disable the navigation bar

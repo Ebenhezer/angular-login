@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 import * as server from "../../../assets/config/server.json";
+import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
 
 // const AUTH_API = 'http://192.168.50.142/interface/';
 const AUTH_API = server.server_ip;
@@ -19,13 +20,24 @@ const httpOptions = {
 })
 export class AuthenticationService {
 
-  isAuthenticated = sessionStorage.getItem("isAuthenticated");
+  private authStatus = new BehaviorSubject<string>(this.getAuthStatus());
+  isAuthenticated = this.authStatus.asObservable();
   
   private message = new BehaviorSubject<string>("");
   api_failed_message = this.message.asObservable();
 
   constructor(private router: Router, private http: HttpClient) { }
 
+  
+  getAuthStatus(){
+    var sessionAuthStatus = sessionStorage.getItem("isAuthenticated");
+    var auth: any;
+    if (sessionAuthStatus == null || sessionAuthStatus == undefined){
+      auth = "false";
+    }else{
+      return sessionAuthStatus;
+    }
+  }
   login(payload): Observable<any> {
     console.log(AUTH_API);
     return this.http.post(AUTH_API + 'login', payload, httpOptions);
@@ -53,17 +65,18 @@ export class AuthenticationService {
         if(response.access_token){
           sessionStorage.setItem("apiKey", response.access_token);
           sessionStorage.setItem("isAuthenticated", "true");
-          this.isAuthenticated = "true";
+          this.setAuthStatus("true")
           this.router.navigate(['home'])
           return true;
         }
         else if (response.failed){
           this.responseMesage(response.failed);
+          this.setAuthStatus("false")
           return false;
         }
         else{
           sessionStorage.setItem("isAuthenticated", "false");
-          this.isAuthenticated = "false";
+          //this.isAuthenticated = "false";
         }
       },
       err => {
@@ -117,14 +130,19 @@ export class AuthenticationService {
     return false;
   }
   logout(){
-    sessionStorage.clear();
-    this.router.navigate([''])
-    
+    //sessionStorage.clear();
+    this.router.navigate(['login']);
+    this.setAuthStatus("false");
+    sessionStorage.setItem("isAuthenticated", "false")
     location.reload();// This sis a bit of a hack. There should be a better way. 
     //If removed, the navigation remains after logout but disappers after refresh
   }
 
   responseMesage(message: string){
     return this.message.next(message)
+  }
+
+  setAuthStatus(status: string){
+    return this.authStatus.next(status)
   }
 }

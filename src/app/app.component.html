@@ -13,7 +13,7 @@
 </head>
 <div class="d-flex" id="wrapper" >
   <!-- Sidebar -->
-  <div *ngIf = "authenticationService.isAuthenticated" class="border-right" data-color="purple" 
+  <div *ngIf = "login_status == 'true'" class="border-right" data-color="purple" 
       data-background-color="white" id="sidebar-wrapper"  [ngClass]="status ? 'hide' : 'show'">
     <div class="sidebar-logo">
       <a href="/"><img  class="logo" src="../assets/img/main_logo.svg" alt="logo"></a>
@@ -54,7 +54,7 @@
   <!-- /#sidebar-wrapper -->
   <!-- Page Content -->
   <div id="page-content-wrapper" >
-    <nav *ngIf = "authenticationService.isAuthenticated" class=" ">
+    <nav *ngIf = "login_status == 'true'" class=" ">
      
       <div class="container-fluid">
         <button class="btn btn-menu btn-primary" (click)="clickEvent()"><i class="material-icons">menu</i> Menu</button>
