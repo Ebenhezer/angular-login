@@ -12,7 +12,7 @@ const AUTH_API = server.server_ip;
 export class GpsService {
 
   constructor(private router: Router, private http: HttpClient) { }
-
+  empty = []
   apiKey= sessionStorage.getItem("apiKey");
   payload ={
     "api_key":this.apiKey,
@@ -26,16 +26,16 @@ export class GpsService {
 
   body=JSON.stringify(this.request_body);
 
-  private message = new BehaviorSubject<string>("");
+  private message = new BehaviorSubject<any>("");
   profileData = this.message.asObservable();
 
-  private sCount = new BehaviorSubject<string>("");
+  private sCount = new BehaviorSubject<any>("");
   sCountGps = this.sCount.asObservable();
 
-  private sList = new BehaviorSubject<string>("");
+  private sList = new BehaviorSubject<any>("");
   sListData = this.sList.asObservable();
 
-  private sHistory = new BehaviorSubject<string>("");
+  private sHistory = new BehaviorSubject<any>("");
   sHistoryData = this.sHistory.asObservable();
 
   gps(payload): Observable<any> {
@@ -44,12 +44,13 @@ export class GpsService {
   countGps(){
     this.gps(this.payload).subscribe(
       response => {
-        console.log(response);
-        if(response.gps){
-          this.sCountResponse(response);
+        if(response.success){
+          console.log(response);
+          this.sCountResponse(response.success);
           return true;
         }
         else if(response.failed){
+          console.log(response);
           this.sCountResponse(response.failed);
           return false;
         }
@@ -73,14 +74,14 @@ export class GpsService {
   getListOfGps(){
     this.gpsList(this.payload).subscribe(
       response => {
-        if(response[0].gps_id){
-          this.sListResponse(response);
+        if(response.success){
+          this.sListResponse(response.success);
           console.log(response);
           return true;
         }
         else if(response.failed){
           console.log(response);
-          this.sListResponse(response.failed);
+          this.sListResponse(this.empty);
           return false;
         }
         else{
@@ -105,14 +106,14 @@ export class GpsService {
     this.gpsHistory(this.body).subscribe(
       response => {
         console.log(response);
-        if(response[0].gps_id){
-          this.sHistoryResponse(response);
+        if(response.success){
+          this.sHistoryResponse(response.success);
           console.log(response);
           return true;
         }
         else if(response.failed){
           console.log(response);
-          this.sHistoryResponse(response.failed);
+          this.sHistoryResponse(this.empty);
           return false;
         }
         else{
@@ -129,16 +130,16 @@ export class GpsService {
   }
 
 
-  responseMessage(message: string){
+  responseMessage(message: any){
     return this.message.next(message)
   }
-  sCountResponse(sCount: string){
+  sCountResponse(sCount: any){
     return this.sCount.next(sCount)
   }
-  sListResponse(message: string){
+  sListResponse(message: any){
     return this.sList.next(message)
   }
-  sHistoryResponse(message: string){
+  sHistoryResponse(message: any){
     return this.sHistory.next(message)
   }
 }

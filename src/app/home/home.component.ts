@@ -15,20 +15,20 @@ export class HomeComponent implements OnInit {
   response_message:any = '';
   
   sensors:any = 0;
-  sensorList: any = 0;
-  sensorData: any  = 0;
+  sensorList: any = [];
+  sensorData: any  = [];
 
   gps: any = 0;
-  gpsList: any = 0;
-  gpsData: any  = 0;
+  gpsList: any = [];
+  gpsData: any  = [];
 
   switches:any = 0;
-  switchList: any = 0;
-  switchData: any  = 0;
+  switchList: any = [];
+  switchData: any  = [];
 
   workstations:any = 0;
-  workstationList: any = 0;
-  workstationData: any  = 0;
+  workstationList: any = [];
+  workstationData: any  = [];
 
   constructor(private dataService: DataService,
               private sensorService: SensorService,

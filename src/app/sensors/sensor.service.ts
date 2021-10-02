@@ -14,6 +14,7 @@ export class SensorService {
 
   constructor(private router: Router, private http: HttpClient) { }
 
+  empty = [];
   apiKey= sessionStorage.getItem("apiKey");
   payload ={
     "api_key":this.apiKey,
@@ -27,16 +28,16 @@ export class SensorService {
 
   body=JSON.stringify(this.request_body);
 
-  private message = new BehaviorSubject<string>("");
+  private message = new BehaviorSubject<any>("");
   profileData = this.message.asObservable();
 
-  private sCount = new BehaviorSubject<string>("");
+  private sCount = new BehaviorSubject<any>("");
   sCountData = this.sCount.asObservable();
 
-  private sList = new BehaviorSubject<string>("");
+  private sList = new BehaviorSubject<any>("");
   sListData = this.sList.asObservable();
 
-  private sHistory = new BehaviorSubject<string>("");
+  private sHistory = new BehaviorSubject<any>("");
   sHistoryData = this.sHistory.asObservable();
 
   sensors(payload): Observable<any> {
@@ -47,8 +48,8 @@ export class SensorService {
       response => {
         console.log(response);
         try {
-          if(response.sensors){
-            this.sCountResponse(response);
+          if(response.success){
+            this.sCountResponse(response.success);
             return true;
           }
           else if(response.failed){
@@ -80,15 +81,15 @@ export class SensorService {
     this.sensorList(this.payload).subscribe(
       response => {
         try {
-          if(response[0].sensor_id){
+          if(response.success){
             // sessionStorage.setItem("apiKey", response.access_token);
-            this.sListResponse(response);
+            this.sListResponse(response.success);
             console.log(response);
             return true;
           }
           else if(response.failed){
             console.log(response);
-            this.sListResponse(response.failed);
+            this.sListResponse(this.empty);
             return false;
           }
           else{
@@ -116,15 +117,15 @@ export class SensorService {
       response => {
         console.log(response);
         try {
-          if(response[0].sensor_id){
+          if(response.success){
             // sessionStorage.setItem("apiKey", response.access_token);
-            this.sHistoryResponse(response);
+            this.sHistoryResponse(response.success);
             console.log(response);
             return true;
           }
           else if(response.failed){
             console.log(response);
-            this.sHistoryResponse(response.failed);
+            this.sHistoryResponse(this.empty);
             return false;
           }
           else{
@@ -149,16 +150,32 @@ export class SensorService {
     }
 
 
-  responseMessage(message: string){
+    getData(): Observable<any>{
+      return this.http.post<any>(AUTH_API + 'sensor/data', this.body, { params: this.request_body, });
+    }
+    
+    async checkData(){
+      var response = await this.getData().toPromise();
+      if (response) {
+          console.log("Inside");
+      }
+    }
+    
+    async proceed(){
+     await this.checkData();
+     console.log("finished");
+    }
+
+  responseMessage(message: any){
     return this.message.next(message)
   }
-  sCountResponse(sCount: string){
+  sCountResponse(sCount: any){
     return this.sCount.next(sCount)
   }
-  sListResponse(message: string){
+  sListResponse(message: any){
     return this.sList.next(message)
   }
-  sHistoryResponse(message: string){
+  sHistoryResponse(message: any){
     return this.sHistory.next(message)
   }
 

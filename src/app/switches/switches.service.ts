@@ -13,7 +13,7 @@ const AUTH_API = server.server_ip;
 export class SwitchesService {
 
   constructor(private router: Router, private http: HttpClient) { }
-
+  empty = []
   apiKey= sessionStorage.getItem("apiKey");
   payload ={
     "api_key":this.apiKey,
@@ -27,16 +27,16 @@ export class SwitchesService {
 
   body=JSON.stringify(this.request_body);
 
-  private message = new BehaviorSubject<string>("");
+  private message = new BehaviorSubject<any>("");
   profileData = this.message.asObservable();
 
-  private sCount = new BehaviorSubject<string>("");
+  private sCount = new BehaviorSubject<any>("");
   sCountSwitches = this.sCount.asObservable();
 
-  private sList = new BehaviorSubject<string>("");
+  private sList = new BehaviorSubject<any>("");
   sListData = this.sList.asObservable();
 
-  private sHistory = new BehaviorSubject<string>("");
+  private sHistory = new BehaviorSubject<any>("");
   sHistoryData = this.sHistory.asObservable();
 
   switches(payload): Observable<any> {
@@ -46,8 +46,8 @@ export class SwitchesService {
     this.switches(this.payload).subscribe(
       response => {
         console.log(response);
-        if(response.switches){
-          this.sCountResponse(response);
+        if(response.success){
+          this.sCountResponse(response.success);
           return true;
         }
         else if(response.failed){
@@ -74,15 +74,15 @@ export class SwitchesService {
   getListOfSwitches(){
     this.swithcList(this.payload).subscribe(
       response => {
-        if(response[0].switch_id){
+        if(response.success){
           // sessionStorage.setItem("apiKey", response.access_token);
-          this.sListResponse(response);
+          this.sListResponse(response.success);
           console.log(response);
           return true;
         }
         else if(response.failed){
           console.log(response);
-          this.sListResponse(response.failed);
+          this.sListResponse(this.empty);
           return false;
         }
         else{
@@ -107,14 +107,14 @@ export class SwitchesService {
     this.switchHistory(this.body).subscribe(
       response => {
         console.log(response);
-        if(response[0].switch_id){
-          this.sHistoryResponse(response);
+        if(response.success){
+          this.sHistoryResponse(response.success);
           console.log(response);
           return true;
         }
         else if(response.failed){
           console.log(response);
-          this.sHistoryResponse(response.failed);
+          this.sHistoryResponse(this.empty);
           return false;
         }
         else{
@@ -130,16 +130,16 @@ export class SwitchesService {
     return false;
   }
 
-  responseMessage(message: string){
+  responseMessage(message: any){
     return this.message.next(message)
   }
-  sCountResponse(sCount: string){
+  sCountResponse(sCount: any){
     return this.sCount.next(sCount)
   }
-  sListResponse(message: string){
+  sListResponse(message: any){
     return this.sList.next(message)
   }
-  sHistoryResponse(message: string){
+  sHistoryResponse(message: any){
     return this.sHistory.next(message)
   }
 }

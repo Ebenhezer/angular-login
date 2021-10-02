@@ -17,10 +17,7 @@ export class SensorsComponent implements OnInit {
   sensorHistory:any;
   chartData: any;
 
-  constructor(private sensorService: SensorService) { }
-
-  ngOnInit(): void {
-
+  constructor(private sensorService: SensorService) { 
     const sCountData = this.sensorService.countSensors();
     this.sensorService.sCountData.subscribe(response_message => this.nrOfSensors = response_message);
 
@@ -29,6 +26,9 @@ export class SensorsComponent implements OnInit {
 
     const sHistoryData = this.sensorService.getSensorHistory();
     this.sensorService.sHistoryData.subscribe(response_message => this.sensorHistory = response_message);
+  }
+
+  ngOnInit(): void {
 
     this.sensorTrends()
   }

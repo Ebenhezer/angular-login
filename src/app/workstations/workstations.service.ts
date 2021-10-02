@@ -12,7 +12,7 @@ const AUTH_API = server.server_ip;
 export class WorkstationsService {
 
   constructor(private router: Router, private http: HttpClient) { }
-
+  empty = []
   apiKey= sessionStorage.getItem("apiKey");
   payload ={
     "api_key":this.apiKey,
@@ -26,16 +26,16 @@ export class WorkstationsService {
 
   body=JSON.stringify(this.request_body);
 
-  private message = new BehaviorSubject<string>("");
+  private message = new BehaviorSubject<any>("");
   profileData = this.message.asObservable();
 
-  private sCount = new BehaviorSubject<string>("");
+  private sCount = new BehaviorSubject<any>("");
   sCountWorkstation = this.sCount.asObservable();
 
-  private sList = new BehaviorSubject<string>("");
+  private sList = new BehaviorSubject<any>("");
   sListData = this.sList.asObservable();
 
-  private sHistory = new BehaviorSubject<string>("");
+  private sHistory = new BehaviorSubject<any>("");
   sHistoryData = this.sHistory.asObservable();
 
   workstations(payload): Observable<any> {
@@ -45,8 +45,8 @@ export class WorkstationsService {
     this.workstations(this.payload).subscribe(
       response => {
         console.log(response);
-        if(response.ws){
-          this.sCountResponse(response);
+        if(response.success){
+          this.sCountResponse(response.success);
           return true;
         }
         else if(response.failed){
@@ -73,14 +73,14 @@ export class WorkstationsService {
   getListOfWorkstation(){
     this.workstationList(this.payload).subscribe(
       response => {
-        if(response[0].ws_id){
-          this.sListResponse(response);
+        if(response.success){
+          this.sListResponse(response.success);
           console.log(response);
           return true;
         }
         else if(response.failed){
           console.log(response);
-          this.sListResponse(response.failed);
+          this.sListResponse(this.empty);
           return false;
         }
         else{
@@ -105,14 +105,14 @@ export class WorkstationsService {
     this.workstationHistory(this.body).subscribe(
       response => {
         console.log(response);
-        if(response[0].ws_id){
-          this.sHistoryResponse(response);
+        if(response.success){
+          this.sHistoryResponse(response.success);
           console.log(response);
           return true;
         }
         else if(response.failed){
           console.log(response);
-          this.sHistoryResponse(response.failed);
+          this.sHistoryResponse(this.empty);
           return false;
         }
         else{
@@ -128,16 +128,16 @@ export class WorkstationsService {
     return false;
   }
 
-  responseMessage(message: string){
+  responseMessage(message: any){
     return this.message.next(message)
   }
-  sCountResponse(sCount: string){
+  sCountResponse(sCount: any){
     return this.sCount.next(sCount)
   }
-  sListResponse(message: string){
+  sListResponse(message: any){
     return this.sList.next(message)
   }
-  sHistoryResponse(message: string){
+  sHistoryResponse(message: any){
     return this.sHistory.next(message)
   }
 }

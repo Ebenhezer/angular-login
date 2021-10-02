@@ -49,6 +49,7 @@ export class AuthenticationService {
 
     this.login(payload).subscribe(
       response => {
+        console.log(response);
         if(response.access_token){
           sessionStorage.setItem("apiKey", response.access_token);
           sessionStorage.setItem("isAuthenticated", "true");

@@ -33,9 +33,9 @@ export class DataService {
   getProfile(){
     this.profile(this.payload).subscribe(
       response => {
-        if(response.email){
+        if(response.success){
           // sessionStorage.setItem("apiKey", response.access_token);
-          this.responseMessage(response);
+          this.responseMessage(response.success);
           return true;
         }
         else if(response.failed){

@@ -39,9 +39,9 @@ export class LoginComponent implements OnInit {
       this.isFormInValid = false;
       this.areCredentialsInvalid= true;
       this.authenticationService.api_failed_message.subscribe(response_message => this.response_message = response_message);
-      if(this.response_message.length == 0){
-        this.response_message = "Failed to register account";
-      }
+      // if(this.response_message.length == 0){
+      //   this.response_message = "Failed to register account";
+      // }
     }
   }
 }

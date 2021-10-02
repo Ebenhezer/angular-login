@@ -118,7 +118,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-12" *ngIf="sensorData.length > 0">
           <div class="card">
             <div class="card-header card-header-warning">
               <h4 class="card-title">Sensor updates</h4>
@@ -145,7 +145,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-12" *ngIf="switchData.length > 0">
           <div class="card">
             <div class="card-header card-header-danger">
               <h4 class="card-title">Switch updates</h4>
@@ -172,7 +172,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-12" *ngIf="workstationData.length > 0">
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Workstation</h4>
@@ -199,7 +199,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-12" *ngIf="gpsData.length > 0">
           <div class="card">
             <div class="card-header card-header-success">
               <h4 class="card-title">Workstation</h4>
