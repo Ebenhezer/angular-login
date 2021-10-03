@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     // To disable the navigation bar
     sessionStorage.clear();
+    sessionStorage.setItem("isAuthenticated", "false")
   }
   
   onSubmit(signInForm: NgForm){

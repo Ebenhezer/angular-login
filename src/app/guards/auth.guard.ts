@@ -16,8 +16,9 @@ export class AuthGuard implements CanActivate {
       if (sessionStorage.getItem("apiKey")){
         return true;
       }
-
-      if(this.authenticationService.isAuthenticated){
+      var login_status;
+      this.authenticationService.isAuthenticated.subscribe(response => login_status = response)
+      if(login_status == "true"){
         return true
       }
       this.router.navigate(['login'])
