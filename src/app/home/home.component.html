@@ -118,6 +118,7 @@
           </div>
         </div>
 
+        <!-- Sensor table -->
         <div class="col-lg-6 col-md-12" *ngIf="sensorData.length > 0">
           <div class="card">
             <div class="card-header card-header-warning">
@@ -130,7 +131,6 @@
                   <tr>
                     <th>ID</th>
                     <th>Device Name</th>
-                    <th>Status</th>
                     <th>Last update time</th>
                   </tr>
                 </thead>
@@ -139,7 +139,6 @@
                     <tr *ngFor="let data of sensor.data;">
                       <td>{{sensor.sensor_id}}</td>
                       <td>{{sensor.sensor_name}}</td>
-                      <td>Offline</td>
                       <td>{{data.update_time}}</td>
                     </tr>
                   </ng-container>
@@ -149,86 +148,93 @@
           </div>
         </div>
 
+        <!-- Switch Table -->
         <div class="col-lg-6 col-md-12" *ngIf="switchData.length > 0">
           <div class="card">
-            <div class="card-header card-header-danger">
+            <div class="card-header card-header-success">
               <h4 class="card-title">Switch updates</h4>
               <!-- <p class="card-category">Recent updates </p> -->
             </div>
             <div class="card-body table-responsive">
-              <table class="table table-hover">
-                <thead class="text-warning">
-                  <th>Device ID</th>
-                  <th>Device Name</th>
-                  <th>Status</th>
-                  <th>Last update time</th>
-                </thead>
-                <tbody *ngFor="let switch of switchData;">
-                  <tr *ngFor="let data of switch.data;">
-                    <td>{{switch.switch_id}}</td>
-                    <td>{{switch.switch_name}}</td>
-                    <td>Offline</td>
-                    <td>{{data.update_time}}</td>
+              <table datatable [dtOptions]="dtOptions" class="row-border hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Device Name</th>
+                    <th>Last update time</th>
                   </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let switch of switchData;">
+                    <tr *ngFor="let data of switch.data;">
+                      <td>{{switch.switch_id}}</td>
+                      <td>{{switch.switch_name}}</td>
+                      <td>{{data.update_time}}</td>
+                    </tr>
+                  </ng-container>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
 
-        <div class="col-lg-6 col-md-12" *ngIf="workstationData.length > 0">
-          <div class="card">
-            <div class="card-header card-header-primary">
-              <h4 class="card-title">Workstation</h4>
-              <!-- <p class="card-category">Recent updates </p> -->
-            </div>
-            <div class="card-body table-responsive">
-              <table class="table table-hover">
-                <thead class="text-warning">
-                  <th>Device ID</th>
-                  <th>Device Name</th>
-                  <th>Status</th>
-                  <th>Last update time</th>
-                </thead>
-                <tbody *ngFor="let workstation of workstationData;">
-                  <tr *ngFor="let data of workstation.data;">
-                    <td>{{workstation.ws_id}}</td>
-                    <td>{{workstation.ws_name}}</td>
-                    <td>Offline</td>
-                    <td>{{data.update_time}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
+        <!-- GPS table -->
         <div class="col-lg-6 col-md-12" *ngIf="gpsData.length > 0">
           <div class="card">
-            <div class="card-header card-header-success">
-              <h4 class="card-title">Workstation</h4>
+            <div class="card-header card-header-info">
+              <h4 class="card-title">GPS updates</h4>
               <!-- <p class="card-category">Recent updates </p> -->
             </div>
             <div class="card-body table-responsive">
-              <table class="table table-hover">
-                <thead class="text-warning">
-                  <th>Device ID</th>
-                  <th>Device Name</th>
-                  <th>Status</th>
-                  <th>Last update time</th>
-                </thead>
-                <tbody *ngFor="let gps of gpsData;">
-                  <tr *ngFor="let data of gps.data;">
-                    <td>{{gps.gps_id}}</td>
-                    <td>{{gps.gps_name}}</td>
-                    <td>Offline</td>
-                    <td>{{data.update_time}}</td>
+              <table datatable [dtOptions]="dtOptions" class="row-border hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Device Name</th>
+                    <th>Last update time</th>
                   </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let gps of gpsData;">
+                    <tr *ngFor="let data of gps.data;">
+                      <td>{{gps.gps_id}}</td>
+                      <td>{{gps.gps_name}}</td>
+                      <td>{{data.last_modified}}</td>
+                    </tr>
+                  </ng-container>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
 
-      </div>
+        <!-- Workstation table -->
+        <div class="col-lg-6 col-md-12" *ngIf="workstationData.length > 0">
+          <div class="card">
+            <div class="card-header card-header-danger">
+              <h4 class="card-title">Workstation updates</h4>
+              <!-- <p class="card-category">Recent updates </p> -->
+            </div>
+            <div class="card-body table-responsive">
+              <table datatable [dtOptions]="dtOptions" class="row-border hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Device Name</th>
+                    <th>Last update time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let workstation of workstationData;">
+                    <tr *ngFor="let data of workstation.data;">
+                      <td>{{workstation.ws_id}}</td>
+                      <td>{{workstation.ws_name}}</td>
+                      <td>{{data.update_time}}</td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
   </div>
