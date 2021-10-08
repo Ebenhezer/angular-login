@@ -4,6 +4,7 @@ import { SensorService } from '../sensors/sensor.service';
 import { GpsService } from '../gps/gps.service';
 import { SwitchesService } from '../switches/switches.service';
 import { WorkstationsService } from '../workstations/workstations.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'cf-home',
@@ -30,14 +31,30 @@ export class HomeComponent implements OnInit {
   workstationList: any = [];
   workstationData: any  = [];
 
+  title = 'datatables';
+  dtOptions: DataTables.Settings = {};
+  posts;
+
   constructor(private dataService: DataService,
               private sensorService: SensorService,
               private switchService: SwitchesService,
               private gpsService: GpsService,
-              private workstationService: WorkstationsService) { }
+              private workstationService: WorkstationsService,
+              private http: HttpClient) { }
 
   ngOnInit(): void {
 
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true
+    };
+  
+    this.http.get('http://jsonplaceholder.typicode.com/posts')
+      .subscribe(posts => {
+        this.posts = posts;
+    });
+  
     const profileData = this.dataService.getProfile();
     this.dataService.profileData.subscribe(response_message => this.response_message = response_message);
 

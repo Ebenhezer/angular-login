@@ -125,20 +125,24 @@
               <!-- <p class="card-category">Recent updates </p> -->
             </div>
             <div class="card-body table-responsive">
-              <table class="table table-hover">
-                <thead class="text-warning">
-                  <th>Device ID</th>
-                  <th>Device Name</th>
-                  <th>Status</th>
-                  <th>Last update time</th>
-                </thead>
-                <tbody *ngFor="let sensor of sensorData;">
-                  <tr *ngFor="let data of sensor.data;">
-                    <td>{{sensor.sensor_id}}</td>
-                    <td>{{sensor.sensor_name}}</td>
-                    <td>Offline</td>
-                    <td>{{data.update_time}}</td>
+              <table datatable [dtOptions]="dtOptions" class="row-border hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Device Name</th>
+                    <th>Status</th>
+                    <th>Last update time</th>
                   </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let sensor of sensorData;">
+                    <tr *ngFor="let data of sensor.data;">
+                      <td>{{sensor.sensor_id}}</td>
+                      <td>{{sensor.sensor_name}}</td>
+                      <td>Offline</td>
+                      <td>{{data.update_time}}</td>
+                    </tr>
+                  </ng-container>
                 </tbody>
               </table>
             </div>

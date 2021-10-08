@@ -23,7 +23,7 @@ export class SensorService {
   };
   request_body = new HttpParams()
       .append('api_key', this.apiKey)
-      .append('min_epoch_tm_sec', '1628353097')
+      .append('min_epoch_tm_sec', '1633300722')
       .append('max_epoch_tm_sec', '1999999999');
 
   body=JSON.stringify(this.request_body);

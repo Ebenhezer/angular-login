@@ -15,6 +15,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { SwitchesComponent } from './switches/switches.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { LiveComponent } from './live/live.component';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { LiveComponent } from './live/live.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    DataTablesModule,
     HttpClientModule
   ],
   providers: [],
