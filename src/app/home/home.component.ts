@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit {
 
   getGpsList(){
     const sList = this.gpsService.getListOfGps();
-    this.gpsService.sListData.subscribe(response_message => this.sensorList = response_message);
+    this.gpsService.sListData.subscribe(response_message => this.gpsList = response_message);
 
   }
   getGpsData(){

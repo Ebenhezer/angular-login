@@ -44,18 +44,22 @@ export class GpsService {
   countGps(){
     this.gps(this.payload).subscribe(
       response => {
-        if(response.success){
-          console.log(response);
-          this.sCountResponse(response.success);
-          return true;
-        }
-        else if(response.failed){
-          console.log(response);
-          this.sCountResponse(response.failed);
-          return false;
-        }
-        else{
-          this.sCountResponse(response);
+        try{
+          if(response.success){
+            console.log(response);
+            this.sCountResponse(response.success);
+            return true;
+          }
+          else if(response.failed){
+            console.log(response);
+            this.sCountResponse(response.failed);
+            return false;
+          }
+          else{
+            this.sCountResponse(response);
+          }
+        }catch{
+          this.router.navigate(['login']);
         }
       },
       err => {
@@ -74,18 +78,22 @@ export class GpsService {
   getListOfGps(){
     this.gpsList(this.payload).subscribe(
       response => {
-        if(response.success){
-          this.sListResponse(response.success);
-          console.log(response);
-          return true;
-        }
-        else if(response.failed){
-          console.log(response);
-          this.sListResponse(this.empty);
-          return false;
-        }
-        else{
-          this.sListResponse(response);
+        try{
+          if(response.success){
+            this.sListResponse(response.success);
+            console.log(response);
+            return true;
+          }
+          else if(response.failed){
+            console.log(response);
+            this.sListResponse(this.empty);
+            return false;
+          }
+          else{
+            this.sListResponse(response);
+          }
+        }catch{
+          this.router.navigate(['login']);
         }
       },
       err => {
@@ -105,20 +113,24 @@ export class GpsService {
   getGpsHistory(){
     this.gpsHistory(this.body).subscribe(
       response => {
-        console.log(response);
-        if(response.success){
-          this.sHistoryResponse(response.success);
-          console.log(response);
-          return true;
+        try{
+          if(response.success){
+            this.sHistoryResponse(response.success);
+            console.log(response);
+            return true;
+          }
+          else if(response.failed){
+            console.log(response);
+            this.sHistoryResponse(this.empty);
+            return false;
+          }
+          else{
+            this.sHistoryResponse(response);
+          }
+        }catch{
+          this.router.navigate(['login']);
         }
-        else if(response.failed){
-          console.log(response);
-          this.sHistoryResponse(this.empty);
-          return false;
-        }
-        else{
-          this.sHistoryResponse(response);
-        }
+        
       },
       err => {
         console.log(err)

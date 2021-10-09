@@ -61,7 +61,7 @@ export class SwitchesService {
       err => {
         console.log(err)
         var errorMessage = err.error.message;
-        console.log(errorMessage)
+        this.router.navigate(['login'])
       }
       );
     return false;
@@ -92,7 +92,7 @@ export class SwitchesService {
       err => {
         console.log(err)
         var errorMessage = err.error.message;
-        console.log(errorMessage)
+        this.router.navigate(['login'])
       }
     );
     return false;
@@ -122,9 +122,8 @@ export class SwitchesService {
         }
       },
       err => {
-        console.log(err)
         var errorMessage = err.error.message;
-        console.log(errorMessage)
+        this.router.navigate(['login'])
       }
     );
     return false;

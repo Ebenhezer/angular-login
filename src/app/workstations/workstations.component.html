@@ -1,1 +1,81 @@
-<p>workstations works!</p>
+<div class="content">
+
+    <div class="row">
+      <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn-add btn btn-info pull-right" >
+                <i class="bi bi-plus-circle"></i>
+                Add new Workstation
+            </button>
+        </div>
+    </div>
+  
+    <!-- Device cards -->
+    <div class="col-md-4" *ngFor="let workstation of workstationList;">
+      <div class="card">
+        <div class="card-header card-header-danger">
+          {{workstation.ws_status}}
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">Workstation name: {{workstation.ws_name}} </h4>
+          <h5 class="card-category">Workstation ID: {{workstation.ws_id}}</h5>
+          <h5 class="card-category">Workstation type: {{workstation.ws_type}}</h5>
+          <h5 class="card-category">Workstation status: {{workstation.ws_status}}</h5>
+          <h5 class="card-category">Workstation token: {{workstation.ws_token}}</h5>
+          <p class="card-category">
+            <!-- <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
+        </div>
+        <div class="card-footer">
+          <div class="stats">
+            <i class="material-icons">access_time</i> updated 4 minutes ago
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-md-12" >
+      <div class="card" >
+        <div class="card-header card-header-danger">
+          <h4 class="card-title ">Workstation trends</h4>
+          <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+        </div>
+        <div class="card-body">
+          <div class="col-md-12 mb-3">
+            <div id="workstation-chart" width="400" height="800" ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Workstation table -->
+    <div class="col-lg-12 col-md-12" *ngIf="workstationData.length > 0">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Workstation updates</h4>
+            <!-- <p class="card-category">Recent updates </p> -->
+          </div>
+          <div class="card-body table-responsive">
+            <table datatable [dtOptions]="dtOptions" class="row-border hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Device Name</th>
+                  <th>Last update time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let workstation of workstationData;">
+                  <tr *ngFor="let data of workstation.data;">
+                    <td>{{workstation.ws_id}}</td>
+                    <td>{{workstation.ws_name}}</td>
+                    <td>{{data.update_time}}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+  
+  </div>
+  

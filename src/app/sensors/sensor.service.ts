@@ -96,13 +96,13 @@ export class SensorService {
             this.sListResponse(response);
           }
         }catch (e){
-          console.log("Not authenticated")
-          this.router.navigate(['login'])
+          console.log("Not authenticated");
+          this.router.navigate(['login']);
         }
       },
       err => {
         var errorMessage = err.error.message;
-        console.log(errorMessage)
+        console.log(errorMessage);
       }
     );
     return false;
@@ -178,18 +178,4 @@ export class SensorService {
   sHistoryResponse(message: any){
     return this.sHistory.next(message)
   }
-
-  // sensor_trend_data = requests.get('http://interface:8888/sensor/history',
-  //                     params = {'api_key': api_key}, 
-  //                     json = {'min_epoch_tm_sec': session["min_epoch_tm_sec"],
-  //                             'max_epoch_tm_sec': session["max_epoch_tm_sec"]})
-  // sensor_history = json.loads(sensor_trend_data.content)
-  // sensor_list = requests.get('http://interface:8888/sensor/list',
-  //                     params = {'api_key': api_key})
-  // sensor_details = json.loads(sensor_list.content)
-  
-  // sensors = requests.get('http://interface:8888/sensor/count',
-  //                     params = {'api_key': api_key})
-  // nr_sensors = json.loads(sensors.content)
-  // number_of_sensors = nr_sensors["sensors"]
 }

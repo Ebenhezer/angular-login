@@ -1,1 +1,81 @@
-<p>gps works!</p>
+<div class="content">
+
+    <div class="row">
+      <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn-add btn btn-info pull-right" >
+                <i class="bi bi-plus-circle"></i>
+                Add new GPS
+            </button>
+        </div>
+    </div>
+  
+    <!-- Device cards -->
+    <div class="col-md-4" *ngFor="let gps of gpsList;">
+      <div class="card">
+        <div class="card-header card-header-info">
+          {{gps.gps_status}}
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">GPS name: {{gps.gps_name}} </h4>
+          <h5 class="card-category">GPS ID: {{gps.gps_id}}</h5>
+          <h5 class="card-category">GPS type: {{gps.gps_type}}</h5>
+          <h5 class="card-category">GPS status: {{gps.gps_status}}</h5>
+          <h5 class="card-category">GPS token: {{gps.gps_token}}</h5>
+          <p class="card-category">
+            <!-- <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
+        </div>
+        <div class="card-footer">
+          <div class="stats">
+            <i class="material-icons">access_time</i> updated 4 minutes ago
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-md-12" >
+      <div class="card" >
+        <div class="card-header card-header-info">
+          <h4 class="card-title ">Map</h4>
+          <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+        </div>
+        <div class="card-body">
+          <div class="col-md-12 mb-3">
+            <div id="gps-chart" width="400" height="800" ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- GPS table -->
+    <div class="col-lg-12 col-md-12" *ngIf="gpsData.length > 0">
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">GPS updates</h4>
+            <!-- <p class="card-category">Recent updates </p> -->
+          </div>
+          <div class="card-body table-responsive">
+            <table datatable [dtOptions]="dtOptions" class="row-border hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Device Name</th>
+                  <th>Last update time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let gps of gpsData;">
+                  <tr *ngFor="let data of gps.data;">
+                    <td>{{gps.gps_id}}</td>
+                    <td>{{gps.gps_name}}</td>
+                    <td>{{data.last_modified}}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+  
+  </div>
+  

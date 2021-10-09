@@ -1,1 +1,69 @@
-<p>switches works!</p>
+<div class="content">
+
+    <div class="row">
+      <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn-add btn btn-info pull-right" >
+                <i class="bi bi-plus-circle"></i>
+                Add new switches
+            </button>
+        </div>
+    </div>
+  
+    <!-- Device cards -->
+    <div class="col-md-4" *ngFor="let switch of switchList">
+      <div class="card">
+        <div class="card-header card-header-success">
+          {{switch.switch_status}}
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">Switch name: {{switch.switch_name}} </h4>
+          <h5 class="card-category">Switch ID: {{switch.switch_id}}</h5>
+          <h5 class="card-category">Switch type: {{switch.switch_type}}</h5>
+          <h5 class="card-category">Switch status: {{switch.switch_status}}</h5>
+          <h5 class="card-category">Switch token: {{switch.switch_token}}</h5>
+          <p class="card-category">
+            <!-- <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
+        </div>
+        <div class="card-footer">
+          <div class="stats">
+            <i class="material-icons">access_time</i> updated 4 minutes ago
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+        <!-- Switch table -->
+        <div class="col-lg-12 col-md-12" *ngIf="switchData.length > 0">
+        <div class="card">
+            <div class="card-header card-header-success">
+            <h4 class="card-title">Switch updates</h4>
+            <!-- <p class="card-category">Recent updates </p> -->
+            </div>
+            <div class="card-body table-responsive">
+            <table datatable [dtOptions]="dtOptions" class="row-border hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Device Name</th>
+                    <th>Last update time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let switch of switchData;">
+                    <tr *ngFor="let data of switch.data;">
+                    <td>{{switch.switch_id}}</td>
+                    <td>{{switch.switch_name}}</td>
+                    <td>{{data.update_time}}</td>
+                    </tr>
+                </ng-container>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
+  
+  </div>
+  
