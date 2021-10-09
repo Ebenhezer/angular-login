@@ -69,8 +69,7 @@ export class SensorsComponent implements OnInit {
         data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
       }
 
-      console.log(this.sensorData);
-      chart.data = this.sensorData.data;
+      chart.data = data;
 
       let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.renderer.grid.template.location = 0;
@@ -80,8 +79,8 @@ export class SensorsComponent implements OnInit {
       valueAxis.renderer.minWidth = 35;
 
       let series = chart.series.push(new am4charts.LineSeries());
-      series.dataFields.dateX = "sensor_value";
-      series.dataFields.valueY = "update_time";
+      series.dataFields.dateX = "date";
+      series.dataFields.valueY = "value";
       series.tooltipText = "{valueY.value}";
 
       chart.cursor = new am4charts.XYCursor();
