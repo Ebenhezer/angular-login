@@ -50,11 +50,6 @@ export class HomeComponent implements OnInit {
       processing: true
     };
   
-    this.http.get('http://jsonplaceholder.typicode.com/posts')
-      .subscribe(posts => {
-        this.posts = posts;
-    });
-  
     const profileData = this.dataService.getProfile();
     this.dataService.profileData.subscribe(response_message => this.response_message = response_message);
 

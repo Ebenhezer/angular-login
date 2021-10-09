@@ -9,7 +9,7 @@
                     Please fill all fields
                   </div>
 
-                  <div class="alert alert-danger" role ="alert" *ngIf="areCredentialsInvalid">
+                  <div class="alert alert-danger" role ="alert" *ngIf="areCredentialsInvalid && response_message.length > 0">
                     {{ response_message }} 
                   </div>
 

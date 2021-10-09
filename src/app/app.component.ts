@@ -10,11 +10,12 @@ import { AuthenticationService } from './service/authentication/authentication.s
 export class AppComponent {
   title = 'spoiler';
   login_status:any;
+  status: boolean = false;
 
   constructor(public authenticationService: AuthenticationService){
     authenticationService.isAuthenticated.subscribe(response => this.login_status = response)
   }
-  status: boolean = false;
+  
   clickEvent(){
       this.status = !this.status;   
   }
