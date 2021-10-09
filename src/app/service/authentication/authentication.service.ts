@@ -134,7 +134,7 @@ export class AuthenticationService {
     this.router.navigate(['login']);
     this.setAuthStatus("false");
     sessionStorage.setItem("isAuthenticated", "false")
-    //location.reload();// This sis a bit of a hack. There should be a better way. 
+    location.reload();// This sis a bit of a hack. There should be a better way. 
     //If removed, the navigation remains after logout but disappers after refresh
   }
 

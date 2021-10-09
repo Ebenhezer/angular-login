@@ -14,8 +14,11 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 export class SensorsComponent implements OnInit {
   nrOfSensors: any = 0;
   sensorList: any;
-  sensorHistory:any;
+  sensorData:any;
   chartData: any;
+
+  title = 'datatables';
+  dtOptions: DataTables.Settings = {};
 
   constructor(private sensorService: SensorService) { 
     const sCountData = this.sensorService.countSensors();
@@ -25,12 +28,17 @@ export class SensorsComponent implements OnInit {
     this.sensorService.sListData.subscribe(response_message => this.sensorList = response_message);
 
     const sHistoryData = this.sensorService.getSensorHistory();
-    this.sensorService.sHistoryData.subscribe(response_message => this.sensorHistory = response_message);
+    this.sensorService.sHistoryData.subscribe(response_message => this.sensorData = response_message);
   }
 
   ngOnInit(): void {
 
     this.sensorTrends()
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true
+    };
   }
 
   openModal(){
@@ -46,7 +54,7 @@ export class SensorsComponent implements OnInit {
     chart.exporting.menu = new am4core.ExportMenu();
     
     // Add data
-    var chart_data = this.sensorHistory;
+    var chart_data = this.sensorData;
 
     // Create axis
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -107,8 +115,8 @@ export class SensorsComponent implements OnInit {
     }
     let i;
     let j;
-    console.log(this.sensorHistory);
-    for (i = 0; i < this.sensorHistory.length; i++){
+    console.log(this.sensorData);
+    for (i = 0; i < this.sensorData.length; i++){
         var sensor = chart_data[i];
         console.log("Cow")
         var sensor_name = sensor.sensor_name;

@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit {
 
   title = 'datatables';
   dtOptions: DataTables.Settings = {};
-  posts;
 
   constructor(private dataService: DataService,
               private sensorService: SensorService,

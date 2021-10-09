@@ -6,7 +6,7 @@ import { AuthenticationService } from '../service/authentication/authentication.
 @Component({
   selector: 'cf-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss','../../assets/css/material-dashboard.css']
 })
 export class LoginComponent implements OnInit {
   isFormInValid = false;

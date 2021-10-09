@@ -11,9 +11,9 @@
   </div>
 
   <!-- Device cards -->
-  <div class="col-md-3" *ngFor="let sensor of sensorList">
+  <div class="col-md-6" *ngFor="let sensor of sensorList">
     <div class="card">
-      <div class="card-header card-header-success">
+      <div class="card-header card-header-warning">
         {{sensor.sensor_status}}
       </div>
       <div class="card-body">
@@ -35,7 +35,7 @@
 
   <div class="col-md-12" >
     <div class="card" >
-      <div class="card-header card-header-success">
+      <div class="card-header card-header-warning">
         <h4 class="card-title ">Sensor trends</h4>
         <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
       </div>
@@ -47,35 +47,34 @@
     </div>
   </div>
 
-  <div class="col-md-12" >
-    <div class="card" *ngFor="let sensor of sensorHistory;">
-      <div class="card-header card-header-info">
-        <h4 class="card-title ">{{sensor.sensor_name}}</h4>
-        <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table">
-            <thead class="">
-              <th>No</th>
-              <th>Sensor ID</th>
-              <th>Sensor name</th>
-              <th>Value</th>
-              <th>Update time</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of sensor.data; let i = index;">
-                <td>{{i}}</td>
-                <td>{{ sensor.sensor_id }}</td>
-                <td>{{ sensor.sensor_name }}</td>
-                <td>{{ data.sensor_value }}</td>
-                <td>{{ data.update_time }}</td>
-              </tr>
-            </tbody>
-          </table>
+   <!-- Sensor table -->
+        <div class="col-lg-6 col-md-12" *ngIf="sensorData.length > 0">
+          <div class="card">
+            <div class="card-header card-header-warning">
+              <h4 class="card-title">Sensor updates</h4>
+              <!-- <p class="card-category">Recent updates </p> -->
+            </div>
+            <div class="card-body table-responsive">
+              <table datatable [dtOptions]="dtOptions" class="row-border hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Device Name</th>
+                    <th>Last update time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let sensor of sensorData;">
+                    <tr *ngFor="let data of sensor.data;">
+                      <td>{{sensor.sensor_id}}</td>
+                      <td>{{sensor.sensor_name}}</td>
+                      <td>{{data.update_time}}</td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
 </div>
