@@ -217,6 +217,14 @@ export class SensorsComponent implements OnInit, AfterViewInit {
 
       this.chart = chart;
   }
+  displayStyle = "none";
+  
+  openPopup() {
+    this.displayStyle = "block";
+  }
+  closePopup() {
+    this.displayStyle = "none";
+  }
 
   localData(){
     return [

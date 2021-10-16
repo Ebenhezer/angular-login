@@ -12,23 +12,63 @@
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+        <form action="/dashboard/sensors" method="post">
+        <div class="modal-header">
+        <h5 class="modal-title" id="AddDeviceModalLabel">Add new sensor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label  class="col-sm-5 control-label"
+                        for="inputNotes">Sensor name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" required
+                    id="sensor_name" name ="sensor_name" placeholder="Put here the note"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for = "type" class = "col-sm-5 control-label">Type</label>
+                <div class = "col-sm-10">
+                    <select class = "form-select" id = "sensor_type" name="sensor_type">
+                        <option value="Temperature">Temperature</option>
+                        <option value="Voltage">Voltage (V)</option>
+                        <option value="Current">Current (I)</option>
+                        <option value="Rain">Rain</option>
+                        <option value="Ultrasonic">Ultrasonic</option>
+                        <option value="PIR">PIR</option>
+                        <option value="Thermisor">Thermisor</option>
+                        <option value="Gas">Gas</option>
+                        <option value="IR Seonsor">IR Seonsor</option>
+                        <option value="Proximity">Proximity</option>
+                        <option value="Custom">Custom</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for = "type" class = "col-sm-5 control-label">Expected update period</label>
+                <div class = "col-sm-10">
+                    <select class = "form-select" id = "update_period" name="update_period">
+                        <!-- <option value="5">30 seconds</option> -->
+                        <option value="60">1 minute</option>
+                        <option value="180">3 minutes</option>
+                        <option value="300">5 minutes</option>
+                        <option value="600">10 minute</option>
+                        <option value="900">15 minutes</option>
+                        <option value="1800">30 minutes</option>
+                        <option value="3600"> 1 hour</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" >Add sensor</button>
+        </div>
+        </form>
     </div>
-  </div>
+    </div>
 </div>
 
   <!-- Device cards -->
