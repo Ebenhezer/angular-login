@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, NgZone, PLATFORM_ID, AfterViewInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SensorService } from './sensor.service';
 
@@ -16,7 +16,7 @@ import { takeUntil } from "rxjs/operators";
   styleUrls: ['./sensors.component.scss',
               '../../assets/css/material-dashboard.css']
 })
-export class SensorsComponent implements OnInit {
+export class SensorsComponent implements OnInit, AfterViewInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   apiKey= sessionStorage.getItem("apiKey");
   payload ={
@@ -100,6 +100,7 @@ export class SensorsComponent implements OnInit {
       pageLength: 10,
       processing: true
     };
+
   }
   // Run the function only in the browser
   browserOnly(f: () => void) {
@@ -111,6 +112,23 @@ export class SensorsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.drawTrends();
+  }
+  
+  ngOnDestroy() {
+    // Clean up chart when the component is removed
+    this.browserOnly(() => {
+      if (this.chart) {
+        this.chart.dispose();
+      }
+    });
+  }
+
+  openModal(){
+    //Used to control the add device modal
+  }
+
+  drawTrends(){
     // Chart code goes in here
     
     am4core.useTheme(am4themes_animated);
@@ -121,8 +139,8 @@ export class SensorsComponent implements OnInit {
     chart.exporting.menu = new am4core.ExportMenu();
     
     // Add data
-    var chart_data = this.localData();
-
+    var chart_data = this.sensorData;
+    console.log(chart_data);
     // Create axis
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -198,20 +216,6 @@ export class SensorsComponent implements OnInit {
     chart.legend = new am4charts.Legend();
 
       this.chart = chart;
-  
-  }
-  
-  ngOnDestroy() {
-    // Clean up chart when the component is removed
-    this.browserOnly(() => {
-      if (this.chart) {
-        this.chart.dispose();
-      }
-    });
-  }
-
-  openModal(){
-    //Used to control the add device modal
   }
 
   localData(){
