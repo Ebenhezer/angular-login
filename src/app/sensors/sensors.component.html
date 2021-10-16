@@ -1,111 +1,112 @@
 <div class="content">
 
   <div class="row">
+    <!-- Button trigger modal -->
     <div class="row">
       <div class="col-md-12">
-          <button type="button" class="btn-add btn btn-primary pull-right"  data-toggle="modal" data-target="#exampleModal" >
+          <button type="button" class="btn-add btn btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#AddDeviceModal">
               <i class="bi bi-plus-circle"></i>
               Add new sensor
           </button>
       </div>
-  </div>
+    </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-        <form action="/dashboard/sensors" method="post">
-        <div class="modal-header">
-        <h5 class="modal-title" id="AddDeviceModalLabel">Add new sensor</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label  class="col-sm-5 control-label"
-                        for="inputNotes">Sensor name</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" required
-                    id="sensor_name" name ="sensor_name" placeholder="Put here the note"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for = "type" class = "col-sm-5 control-label">Type</label>
-                <div class = "col-sm-10">
-                    <select class = "form-select" id = "sensor_type" name="sensor_type">
-                        <option value="Temperature">Temperature</option>
-                        <option value="Voltage">Voltage (V)</option>
-                        <option value="Current">Current (I)</option>
-                        <option value="Rain">Rain</option>
-                        <option value="Ultrasonic">Ultrasonic</option>
-                        <option value="PIR">PIR</option>
-                        <option value="Thermisor">Thermisor</option>
-                        <option value="Gas">Gas</option>
-                        <option value="IR Seonsor">IR Seonsor</option>
-                        <option value="Proximity">Proximity</option>
-                        <option value="Custom">Custom</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for = "type" class = "col-sm-5 control-label">Expected update period</label>
-                <div class = "col-sm-10">
-                    <select class = "form-select" id = "update_period" name="update_period">
-                        <!-- <option value="5">30 seconds</option> -->
-                        <option value="60">1 minute</option>
-                        <option value="180">3 minutes</option>
-                        <option value="300">5 minutes</option>
-                        <option value="600">10 minute</option>
-                        <option value="900">15 minutes</option>
-                        <option value="1800">30 minutes</option>
-                        <option value="3600"> 1 hour</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" >Add sensor</button>
-        </div>
-        </form>
+    <!-- Add new sensor Modal. Opens after clicking the button-->
+    <div class="modal fade" id="AddDeviceModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="AddDeviceModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <form action="/dashboard/sensors" method="post">
+          <div class="modal-header">
+          <h5 class="modal-title" id="AddDeviceModalLabel">Add new sensor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                  <label  class="col-sm-5 control-label"
+                          for="inputNotes">Sensor name</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control" required
+                      id="sensor_name" name ="sensor_name" placeholder="Put here the note"/>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for = "type" class = "col-sm-5 control-label">Type</label>
+                  <div class = "col-sm-10">
+                      <select class = "form-select" id = "sensor_type" name="sensor_type">
+                          <option value="Temperature">Temperature</option>
+                          <option value="Voltage">Voltage (V)</option>
+                          <option value="Current">Current (I)</option>
+                          <option value="Rain">Rain</option>
+                          <option value="Ultrasonic">Ultrasonic</option>
+                          <option value="PIR">PIR</option>
+                          <option value="Thermisor">Thermisor</option>
+                          <option value="Gas">Gas</option>
+                          <option value="IR Seonsor">IR Seonsor</option>
+                          <option value="Proximity">Proximity</option>
+                          <option value="Custom">Custom</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for = "type" class = "col-sm-5 control-label">Expected update period</label>
+                  <div class = "col-sm-10">
+                      <select class = "form-select" id = "update_period" name="update_period">
+                          <!-- <option value="5">30 seconds</option> -->
+                          <option value="60">1 minute</option>
+                          <option value="180">3 minutes</option>
+                          <option value="300">5 minutes</option>
+                          <option value="600">10 minute</option>
+                          <option value="900">15 minutes</option>
+                          <option value="1800">30 minutes</option>
+                          <option value="3600"> 1 hour</option>
+                      </select>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" >Add sensor</button>
+          </div>
+          </form>
+      </div>
+      </div>
     </div>
-    </div>
-</div>
 
-  <!-- Device cards -->
-  <div class="col-md-4" *ngFor="let sensor of sensorList">
-    <div class="card">
-      <div class="card-header card-header-warning">
-        {{sensor.sensor_status}}
-      </div>
-      <div class="card-body">
-        <h4 class="card-title">Sensor name: {{sensor.sensor_name}} </h4>
-        <h5 class="card-category">Sensor ID: {{sensor.sensor_id}}</h5>
-        <h5 class="card-category">Sensor type: {{sensor.sensor_type}}</h5>
-        <h5 class="card-category">Sensor status: {{sensor.sensor_status}}</h5>
-        <h5 class="card-category">Sensor token: {{sensor.sensor_token}}</h5>
-        <p class="card-category">
-          <!-- <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">access_time</i> updated 4 minutes ago
+    <!-- Device cards -->
+    <div class="col-md-4" *ngFor="let sensor of sensorList">
+      <div class="card">
+        <div class="card-header card-header-warning">
+          {{sensor.sensor_status}}
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">Sensor name: {{sensor.sensor_name}} </h4>
+          <h5 class="card-category">Sensor ID: {{sensor.sensor_id}}</h5>
+          <h5 class="card-category">Sensor type: {{sensor.sensor_type}}</h5>
+          <h5 class="card-category">Sensor status: {{sensor.sensor_status}}</h5>
+          <h5 class="card-category">Sensor token: {{sensor.sensor_token}}</h5>
+          <p class="card-category">
+            <!-- <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
+        </div>
+        <div class="card-footer">
+          <div class="stats">
+            <i class="material-icons">access_time</i> updated 4 minutes ago
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="col-md-12" >
-    <div class="card" >
-      <div class="card-header card-header-warning">
-        <h4 class="card-title ">Sensor trends</h4>
-      </div>
-      <div class="card-body">
-        <div class="col-md-12">
-          <div id="sensor-chart" width="400" height="800" ></div>
+    <div class="col-md-12" >
+      <div class="card" >
+        <div class="card-header card-header-warning">
+          <h4 class="card-title ">Sensor trends</h4>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <div id="sensor-chart" width="400" height="800" ></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
    <!-- Sensor table -->
         <div class="col-lg-12 col-md-12" *ngIf="sensorData.length > 0">
@@ -136,5 +137,5 @@
             </div>
           </div>
         </div>
-
+  </div>
 </div>

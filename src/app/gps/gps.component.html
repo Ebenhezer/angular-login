@@ -1,13 +1,77 @@
 <div class="content">
 
+  <div class="row">
+    
     <div class="row">
-      <div class="row">
-        <div class="col-md-12">
-            <button type="button" class="btn-add btn btn-primary pull-right" >
-                <i class="bi bi-plus-circle"></i>
-                Add new GPS
-            </button>
-        </div>
+      <div class="col-md-12">
+          <button type="button" class="btn-add btn btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#AddDeviceModal">
+              <i class="bi bi-plus-circle"></i>
+              Add new GPS device
+          </button>
+      </div>
+    </div>
+
+  <!-- Add new gps Modal. Opens after clicking the button-->
+    <div class="modal fade" id="AddDeviceModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="AddDeviceModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <form action="/dashboard/gps" method="post">
+          <div class="modal-header">
+          <h5 class="modal-title" id="AddDeviceModalLabel">Add new GPS</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                  <label  class="col-sm-5 control-label"
+                          for="inputNotes">GPS name</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control" required
+                      id="gps_name" name ="gps_name" placeholder="Put here the note"/>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for = "type" class = "col-sm-5 control-label">GPS type</label>
+                  <div class = "col-sm-10">
+                      <select class = "form-select" id = "gps_type" name="gps_type">
+                          <option value="Standard">Standard</option>
+                          <option value="Differential">Differential</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for = "type" class = "col-sm-5 control-label">Coordinate system</label>
+                  <div class = "col-sm-10">
+                      <select class = "form-select" id = "coordinate_system" name="coordinate_system">
+                          <option value="Custom">Custom</option>
+                          <option value="UTM">UTM</option>
+                          <option value="Geodetic">Geodetic</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for = "type" class = "col-sm-5 control-label">Expected update period</label>
+                  <div class = "col-sm-10">
+                      <select class = "form-select" id = "update_period" name="update_period">
+                          <!-- <option value="5">30 seconds</option> -->
+                          <option value="60">1 minute</option>
+                          <option value="180">3 minutes</option>
+                          <option value="300">5 minutes</option>
+                          <option value="600">10 minute</option>
+                          <option value="900">15 minutes</option>
+                          <option value="1800">30 minutes</option>
+                          <option value="3600"> 1 hour</option>
+                      </select>
+                  </div>
+              </div>
+              ...
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" >Add GPS</button>
+          </div>
+          </form>
+      </div>
+      </div>
     </div>
   
     <!-- Device cards -->
