@@ -46,8 +46,9 @@ export class HomeComponent implements OnInit {
   workstationList: any = [];
   workstationData: any  = [];
 
-  title = 'datatables';
-  dtOptions: DataTables.Settings = {};
+  dtOptions: DataTables.Settings = {
+    "order": [2, "desc"]
+  };
 
   constructor(private dataService: DataService,
               private sensorService: SensorService,
@@ -65,7 +66,7 @@ export class HomeComponent implements OnInit {
     };
   
     const profileData = this.dataService.getProfile();
-    this.dataService.profileData.subscribe(response_message => this.response_message = response_message);
+    this.dataService.profileData.pipe(takeUntil(this.destroy$)).subscribe(response_message => this.response_message = response_message);
 
     this.countSensors();
     this.getSensorData();
@@ -149,7 +150,7 @@ export class HomeComponent implements OnInit {
     );
   }
   getSwitchList(){
-    this.switchService.swithcList(this.payload).subscribe(
+    this.switchService.swithcList(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         if(response.success){
           this.switchList = response.success;
@@ -163,7 +164,7 @@ export class HomeComponent implements OnInit {
     );
   }
   getSwitchData(){
-    this.switchService.switchHistory(this.body).subscribe(
+    this.switchService.switchHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         console.log(response);
         if(response.success){
@@ -179,7 +180,7 @@ export class HomeComponent implements OnInit {
 
   // Workstation information
   countWorkstations(){
-    this.workstationService.workstations(this.payload).subscribe(
+    this.workstationService.workstations(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         console.log(response);
         if(response.success){
@@ -192,7 +193,7 @@ export class HomeComponent implements OnInit {
     );
   }
   getWorkstationList(){
-    this.workstationService.workstationList(this.payload).subscribe(
+    this.workstationService.workstationList(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         try{
           if(response.success){
@@ -211,7 +212,7 @@ export class HomeComponent implements OnInit {
 
   }
   getWorkstationData(){
-    this.workstationService.workstationHistory(this.body).subscribe(
+    this.workstationService.workstationHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         console.log(response);
         try{
@@ -231,7 +232,7 @@ export class HomeComponent implements OnInit {
 
   // GPS information
   countGps(){
-    this.gpsService.gps(this.payload).subscribe(
+    this.gpsService.gps(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         try{
           if(response.success){
@@ -249,7 +250,7 @@ export class HomeComponent implements OnInit {
     );
   }
   getGpsList(){
-    this.gpsService.gpsList(this.payload).subscribe(
+    this.gpsService.gpsList(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         try{
           if(response.success){
@@ -267,7 +268,7 @@ export class HomeComponent implements OnInit {
     );
   }
   getGpsData(){
-    this.gpsService.gpsHistory(this.body).subscribe(
+    this.gpsService.gpsHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         try{
           if(response.success){

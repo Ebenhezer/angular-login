@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { SwitchesService } from './switches.service';
 
 @Component({
@@ -29,14 +30,13 @@ export class SwitchesComponent implements OnInit {
   switchData: any  = [];
   chartData: any;
 
-  title = 'datatables';
   dtOptions: DataTables.Settings = {};
 
   constructor(private switchService: SwitchesService) {
     // const sCountData = this.switchService.countSwitches();
     // this.switchService.sCountSwitches.subscribe(response_message => this.switches = response_message);
     // Number of switches
-    this.switchService.switches(this.payload).subscribe(
+    this.switchService.switches(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         console.log(response);
         if(response.success){
@@ -49,7 +49,7 @@ export class SwitchesComponent implements OnInit {
     );
 
     // Switch list
-    this.switchService.swithcList(this.payload).subscribe(
+    this.switchService.swithcList(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         if(response.success){
           this.switchList = response.success;
@@ -63,7 +63,7 @@ export class SwitchesComponent implements OnInit {
     );
     
     // Switch history
-    this.switchService.switchHistory(this.body).subscribe(
+    this.switchService.switchHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         console.log(response);
         if(response.success){

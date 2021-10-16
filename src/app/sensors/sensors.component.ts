@@ -45,7 +45,7 @@ export class SensorsComponent implements OnInit {
               @Inject(PLATFORM_ID) private platformId, private zone: NgZone) { 
 
     // Number of sensors
-    this.sensorService.sensors(this.payload).subscribe(
+    this.sensorService.sensors(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         console.log(response);
         try {
@@ -65,7 +65,7 @@ export class SensorsComponent implements OnInit {
     );
 
     // Sensor list
-    this.sensorService.sensorList(this.payload).subscribe(
+    this.sensorService.sensorList(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         try {
           if(response.success){

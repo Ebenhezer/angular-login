@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import * as server from "../../assets/config/server.json";
 
 // const AUTH_API = 'http://192.168.50.142/interface/';
@@ -12,6 +12,8 @@ const AUTH_API = server.server_ip;
 export class GpsService {
 
   constructor(private router: Router, private http: HttpClient) { }
+  
+  destroy$: Subject<boolean> = new Subject<boolean>();
   empty = []
   apiKey= sessionStorage.getItem("apiKey");
   payload ={

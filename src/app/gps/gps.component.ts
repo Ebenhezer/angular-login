@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { GpsService } from './gps.service';
 
 @Component({
@@ -44,7 +45,7 @@ export class GpsComponent implements OnInit {
     // const sCountGps = this.gpsService.countGps();
     // this.gpsService.sCountGps.subscribe(response_message => this.gps = response_message);
     //Number of GPS
-    this.gpsService.gps(this.payload).subscribe(
+    this.gpsService.gps(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         try{
           if(response.success){
@@ -64,7 +65,7 @@ export class GpsComponent implements OnInit {
     // const sList = this.gpsService.getListOfGps();
     // this.gpsService.sListData.subscribe(response_message => this.gpsList = response_message);
     // Sensor list
-    this.gpsService.gpsList(this.payload).subscribe(
+    this.gpsService.gpsList(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         try{
           if(response.success){
@@ -84,7 +85,7 @@ export class GpsComponent implements OnInit {
     // const sHistoryData = this.gpsService.getGpsHistory();
     // this.gpsService.sHistoryData.subscribe(response_message => this.gpsData = response_message);
     // GPS history
-    this.gpsService.gpsHistory(this.body).subscribe(
+    this.gpsService.gpsHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         try{
           if(response.success){

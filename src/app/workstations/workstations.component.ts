@@ -1,5 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { WorkstationsService } from './workstations.service';
 
 @Component({
@@ -9,6 +11,7 @@ import { WorkstationsService } from './workstations.service';
               '../../assets/css/material-dashboard.css']
 })
 export class WorkstationsComponent implements OnInit {
+  destroy$: Subject<boolean> = new Subject<boolean>();
   apiKey= sessionStorage.getItem("apiKey");
   payload ={
     "api_key":this.apiKey,
@@ -39,7 +42,7 @@ export class WorkstationsComponent implements OnInit {
     };
 
     // Number of senstors
-    this.workstationService.workstations(this.payload).subscribe(
+    this.workstationService.workstations(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         console.log(response);
         if(response.success){
@@ -52,7 +55,7 @@ export class WorkstationsComponent implements OnInit {
     );
 
     // Sensor list
-    this.workstationService.workstationList(this.payload).subscribe(
+    this.workstationService.workstationList(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         try{
           if(response.success){
@@ -70,7 +73,7 @@ export class WorkstationsComponent implements OnInit {
     );
 
     // Sensor history
-    this.workstationService.workstationHistory(this.body).subscribe(
+    this.workstationService.workstationHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         console.log(response);
         try{
