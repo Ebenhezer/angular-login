@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { WorkstationsService } from './workstations.service';
 
@@ -8,6 +9,19 @@ import { WorkstationsService } from './workstations.service';
               '../../assets/css/material-dashboard.css']
 })
 export class WorkstationsComponent implements OnInit {
+  apiKey= sessionStorage.getItem("apiKey");
+  payload ={
+    "api_key":this.apiKey,
+    'min_epoch_tm_sec': 1628353097,
+    'max_epoch_tm_sec': 1999999999 
+  };
+  request_body = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('min_epoch_tm_sec', '1628353097')
+      .append('max_epoch_tm_sec', '1999999999');
+
+  body=JSON.stringify(this.request_body);
+
   workstations:any = 0;
   workstationList: any = [];
   workstationData: any  = [];
@@ -24,15 +38,54 @@ export class WorkstationsComponent implements OnInit {
       processing: true
     };
 
-    const sCountData = this.workstationService.countWorkstations();
-    this.workstationService.sCountWorkstation.subscribe(response_message => this.workstations = response_message);
+    // Number of senstors
+    this.workstationService.workstations(this.payload).subscribe(
+      response => {
+        console.log(response);
+        if(response.success){
+          this.workstations = response.success;
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
 
-    const sList = this.workstationService.getListOfWorkstation();
-    this.workstationService.sListData.subscribe(response_message => this.workstationList = response_message);
+    // Sensor list
+    this.workstationService.workstationList(this.payload).subscribe(
+      response => {
+        try{
+          if(response.success){
+            this.workstationList = response.success;
+            console.log(response);
+            return true;
+          }
+        }catch{
+          console.log("Failed to get sensor list");
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
 
-    const sHistoryData = this.workstationService.getWorkstationHistory();
-    this.workstationService.sHistoryData.subscribe(response_message => this.workstationData = response_message);
-
+    // Sensor history
+    this.workstationService.workstationHistory(this.body).subscribe(
+      response => {
+        console.log(response);
+        try{
+          if(response.success){
+            this.workstationData = response.success;
+            console.log(response);
+          }
+        }catch{
+          console.log("Failed to get workstation history");
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
 }

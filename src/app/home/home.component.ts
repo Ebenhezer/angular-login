@@ -4,7 +4,9 @@ import { SensorService } from '../sensors/sensor.service';
 import { GpsService } from '../gps/gps.service';
 import { SwitchesService } from '../switches/switches.service';
 import { WorkstationsService } from '../workstations/workstations.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'cf-home',
@@ -13,9 +15,22 @@ import { HttpClient } from '@angular/common/http';
               '../../assets/css/material-dashboard.css']
 })
 export class HomeComponent implements OnInit {
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  apiKey= sessionStorage.getItem("apiKey");
+  payload ={
+    "api_key":this.apiKey,
+    'min_epoch_tm_sec': 1628353097,
+    'max_epoch_tm_sec': 1999999999 
+  };
+  request_body = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('min_epoch_tm_sec', '1633300722')
+      .append('max_epoch_tm_sec', '1999999999');
+
+  body=JSON.stringify(this.request_body);
   response_message:any = '';
   
-  sensors:any = 0;
+  nrOfSensors:any = 0;
   sensorList: any = [];
   sensorData: any  = [];
 
@@ -52,74 +67,222 @@ export class HomeComponent implements OnInit {
     const profileData = this.dataService.getProfile();
     this.dataService.profileData.subscribe(response_message => this.response_message = response_message);
 
-    const sCountSensor = this.sensorService.countSensors();
-    this.sensorService.sCountData.subscribe(response_message => this.sensors = response_message);
-
-    const sCountSwitches = this.switchService.countSwitches();
-    this.switchService.sCountSwitches.subscribe(response_message => this.switches = response_message);
-
-    const sCountGps = this.gpsService.countGps();
-    this.gpsService.sCountGps.subscribe(response_message => this.gps = response_message);
-
-    const sCountData = this.workstationService.countWorkstations();
-    this.workstationService.sCountWorkstation.subscribe(response_message => this.workstations = response_message);
-
+    this.countSensors();
     this.getSensorData();
     this.getSensorList();
 
+    this.countSwitches();
     this.getSwitchList();
     this.getSwitchData();
 
+    this.countWorkstations();
     this.getWorkstationList();
     this. getWorkstationData();
 
+    this.countGps();
     this.getGpsList();
     this.getGpsData();
 
   }
 
+  //  Sensor inforomation
+  countSensors(){
+    this.sensorService.sensors(this.payload).subscribe(
+      response => {
+        console.log(response);
+        try {
+          if(response.success){
+            this.nrOfSensors = response.success;
+            return true;
+          }
+        }catch (e){
+          console.log("Not authenticated")
+        }
+      },
+      err => {
+        console.log(err)
+        var errorMessage = err.error.message;
+        console.log(errorMessage)
+      }
+    );
+  }
   getSensorList(){
-    const sList = this.sensorService.getListOfSensors();
-    this.sensorService.sListData.subscribe(response_message => this.sensorList = response_message);
-
+    this.sensorService.sensorList(this.payload).subscribe(
+      response => {
+        try {
+          if(response.success){
+            console.log(response);
+            this.sensorList = response.success;
+          }
+        
+        }catch (e){
+          console.log("Not authenticated");
+        }
+      },
+      err => {
+        var errorMessage = err.error.message;
+        console.log(errorMessage);
+      });
   }
   getSensorData(){
-    const sHistoryData = this.sensorService.getSensorHistory();
-    this.sensorService.sHistoryData.subscribe(response_message => this.sensorData = response_message);
-    console.log(sHistoryData);
+    this.sensorService.sensorHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(response => {
+      this.sensorData = response.success;
+      console.log(this.sensorData);
+    },
+    err => {
+      console.log(err)
+    });
   }
 
+  // Switch information
+  countSwitches(){
+    this.switchService.switches(this.payload).subscribe(
+      response => {
+        console.log(response);
+        if(response.success){
+          this.switches =  response.success;
+        }
+      },
+      err => {
+        console.log(err)
+      }
+    );
+  }
   getSwitchList(){
-    const sList = this.switchService.getListOfSwitches();
-    this.sensorService.sListData.subscribe(response_message => this.switchList = response_message);
-
+    this.switchService.swithcList(this.payload).subscribe(
+      response => {
+        if(response.success){
+          this.switchList = response.success;
+          console.log(response);
+          return true;
+        }
+      },
+      err => {
+        console.log(err)
+      }
+    );
   }
   getSwitchData(){
-    const sHistoryData = this.switchService.getSwitchHistory();
-    this.switchService.sHistoryData.subscribe(response_message => this.switchData = response_message);
-    console.log(sHistoryData);
+    this.switchService.switchHistory(this.body).subscribe(
+      response => {
+        console.log(response);
+        if(response.success){
+          this.switchData = response.success;
+          console.log(response);
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
+  // Workstation information
+  countWorkstations(){
+    this.workstationService.workstations(this.payload).subscribe(
+      response => {
+        console.log(response);
+        if(response.success){
+          this.workstations = response.success;
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
   getWorkstationList(){
-    const sList = this.workstationService.getListOfWorkstation();
-    this.workstationService.sListData.subscribe(response_message => this.workstationList = response_message);
+    this.workstationService.workstationList(this.payload).subscribe(
+      response => {
+        try{
+          if(response.success){
+            this.workstationList = response.success;
+            console.log(response);
+            return true;
+          }
+        }catch{
+          console.log("Failed to get sensor list");
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
 
   }
   getWorkstationData(){
-    const sHistoryData = this.workstationService.getWorkstationHistory();
-    this.workstationService.sHistoryData.subscribe(response_message => this.workstationData = response_message);
-    console.log(sHistoryData);
+    this.workstationService.workstationHistory(this.body).subscribe(
+      response => {
+        console.log(response);
+        try{
+          if(response.success){
+            this.workstationData = response.success;
+            console.log(response);
+          }
+        }catch{
+          console.log("Failed to get workstation history");
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
+  // GPS information
+  countGps(){
+    this.gpsService.gps(this.payload).subscribe(
+      response => {
+        try{
+          if(response.success){
+            console.log(response);
+            this.gps = response.success;
+            return true;
+          }
+        }catch{
+          console.log("Failed to count gps");
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
   getGpsList(){
-    const sList = this.gpsService.getListOfGps();
-    this.gpsService.sListData.subscribe(response_message => this.gpsList = response_message);
-
+    this.gpsService.gpsList(this.payload).subscribe(
+      response => {
+        try{
+          if(response.success){
+            this.gpsList = response.success;
+            console.log(response);
+            return true;
+          }
+        }catch{
+          console.log("Failed to get gps list");
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
   getGpsData(){
-    const sHistoryData = this.gpsService.getGpsHistory();
-    this.gpsService.sHistoryData.subscribe(response_message => this.gpsData = response_message);
-    console.log(sHistoryData);
+    this.gpsService.gpsHistory(this.body).subscribe(
+      response => {
+        try{
+          if(response.success){
+            this.gpsData = response.success;
+            console.log(response);
+          }
+        }catch{
+          console.log("Failed to get GPS history");
+        }
+        
+      },
+      err => {
+        console.log(err)
+      }
+    );
   }
 
 

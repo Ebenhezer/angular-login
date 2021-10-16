@@ -26,83 +26,12 @@ export class GpsService {
 
   body=JSON.stringify(this.request_body);
 
-  private message = new BehaviorSubject<any>("");
-  profileData = this.message.asObservable();
-
-  private sCount = new BehaviorSubject<any>("");
-  sCountGps = this.sCount.asObservable();
-
-  private sList = new BehaviorSubject<any>("");
-  sListData = this.sList.asObservable();
-
-  private sHistory = new BehaviorSubject<any>("");
-  sHistoryData = this.sHistory.asObservable();
-
   gps(payload): Observable<any> {
     return this.http.get(AUTH_API + 'gps/count',{params: payload});
-  }
-  countGps(){
-    this.gps(this.payload).subscribe(
-      response => {
-        try{
-          if(response.success){
-            console.log(response);
-            this.sCountResponse(response.success);
-            return true;
-          }
-          else if(response.failed){
-            console.log(response);
-            this.sCountResponse(response.failed);
-            return false;
-          }
-          else{
-            this.sCountResponse(response);
-          }
-        }catch{
-          this.router.navigate(['login']);
-        }
-      },
-      err => {
-        console.log(err)
-        var errorMessage = err.error.message;
-        console.log(errorMessage)
-      }
-    );
-    return false;
   }
 
   gpsList(payload): Observable<any> {
     return this.http.get(AUTH_API + 'gps/list',{params: payload});
-  }
-
-  getListOfGps(){
-    this.gpsList(this.payload).subscribe(
-      response => {
-        try{
-          if(response.success){
-            this.sListResponse(response.success);
-            console.log(response);
-            return true;
-          }
-          else if(response.failed){
-            console.log(response);
-            this.sListResponse(this.empty);
-            return false;
-          }
-          else{
-            this.sListResponse(response);
-          }
-        }catch{
-          this.router.navigate(['login']);
-        }
-      },
-      err => {
-        console.log(err)
-        var errorMessage = err.error.message;
-        console.log(errorMessage)
-      }
-    );
-    return false;
   }
   
   gpsHistory(payload): Observable<any> {
@@ -110,48 +39,4 @@ export class GpsService {
     return this.http.post<any>(AUTH_API + 'gps/data', payload, { params: this.request_body, });
   }
 
-  getGpsHistory(){
-    this.gpsHistory(this.body).subscribe(
-      response => {
-        try{
-          if(response.success){
-            this.sHistoryResponse(response.success);
-            console.log(response);
-            return true;
-          }
-          else if(response.failed){
-            console.log(response);
-            this.sHistoryResponse(this.empty);
-            return false;
-          }
-          else{
-            this.sHistoryResponse(response);
-          }
-        }catch{
-          this.router.navigate(['login']);
-        }
-        
-      },
-      err => {
-        console.log(err)
-        var errorMessage = err.error.message;
-        console.log(errorMessage)
-      }
-    );
-    return false;
-  }
-
-
-  responseMessage(message: any){
-    return this.message.next(message)
-  }
-  sCountResponse(sCount: any){
-    return this.sCount.next(sCount)
-  }
-  sListResponse(message: any){
-    return this.sList.next(message)
-  }
-  sHistoryResponse(message: any){
-    return this.sHistory.next(message)
-  }
 }

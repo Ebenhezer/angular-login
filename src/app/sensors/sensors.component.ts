@@ -6,6 +6,10 @@ import { SensorService } from './sensor.service';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import { HttpParams } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { takeUntil } from "rxjs/operators";
+
 @Component({
   selector: 'cf-sensors',
   templateUrl: './sensors.component.html',
@@ -13,26 +17,80 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
               '../../assets/css/material-dashboard.css']
 })
 export class SensorsComponent implements OnInit {
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  apiKey= sessionStorage.getItem("apiKey");
+  payload ={
+    "api_key":this.apiKey,
+    'min_epoch_tm_sec': 1628353097,
+    'max_epoch_tm_sec': 1999999999 
+  };
+  request_body = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('min_epoch_tm_sec', '1633300722')
+      .append('max_epoch_tm_sec', '1999999999');
+
+  body=JSON.stringify(this.request_body);
+  
   private chart: am4charts.XYChart;
 
   nrOfSensors: any = 0;
-  sensorList: any;
-  sensorData:any;
-  chartData: any;
+  sensorList: any = [];
+  sensorData: any = [];
+  chartData: any =[];
 
   title = 'datatables';
   dtOptions: DataTables.Settings = {};
 
   constructor(private sensorService: SensorService,
               @Inject(PLATFORM_ID) private platformId, private zone: NgZone) { 
-    const sCountData = this.sensorService.countSensors();
-    this.sensorService.sCountData.subscribe(response_message => this.nrOfSensors = response_message);
 
-    const sListData = this.sensorService.getListOfSensors();
-    this.sensorService.sListData.subscribe(response_message => this.sensorList = response_message);
+    // Number of sensors
+    this.sensorService.sensors(this.payload).subscribe(
+      response => {
+        console.log(response);
+        try {
+          if(response.success){
+            this.nrOfSensors = response.success;
+            return true;
+          }
+        }catch (e){
+          console.log("Not authenticated")
+        }
+      },
+      err => {
+        console.log(err)
+        var errorMessage = err.error.message;
+        console.log(errorMessage)
+      }
+    );
 
-    const sHistoryData = this.sensorService.getSensorHistory();
-    this.sensorService.sHistoryData.subscribe(response_message => this.sensorData = response_message);
+    // Sensor list
+    this.sensorService.sensorList(this.payload).subscribe(
+      response => {
+        try {
+          if(response.success){
+            console.log(response);
+            this.sensorList = response.success;
+        }
+        
+        }catch (e){
+          console.log("Not authenticated");
+        }
+      },
+      err => {
+        var errorMessage = err.error.message;
+        console.log(errorMessage);
+      });
+
+    // Sensor history
+    this.sensorService.sensorHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(response_message => {
+      this.sensorData = response_message.success;
+      console.log(this.sensorData);
+    },
+    err => {
+      console.log(err)
+    });
+
   }
 
   ngOnInit(): void {

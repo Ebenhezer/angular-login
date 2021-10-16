@@ -28,154 +28,20 @@ export class SensorService {
 
   body=JSON.stringify(this.request_body);
 
-  private message = new BehaviorSubject<any>("");
-  profileData = this.message.asObservable();
-
-  private sCount = new BehaviorSubject<any>("");
-  sCountData = this.sCount.asObservable();
-
-  private sList = new BehaviorSubject<any>("");
-  sListData = this.sList.asObservable();
-
-  private sHistory = new BehaviorSubject<any>("");
-  sHistoryData = this.sHistory.asObservable();
 
   sensors(payload): Observable<any> {
     return this.http.get(AUTH_API + 'sensor/count',{params: payload});
   }
-  countSensors(){
-    this.sensors(this.payload).subscribe(
-      response => {
-        console.log(response);
-        try {
-          if(response.success){
-            this.sCountResponse(response.success);
-            return true;
-          }
-          else if(response.failed){
-            this.sCountResponse(response.failed);
-            return false;
-          }
-          else{
-            this.sCountResponse(response);
-          }
-        }catch (e){
-          console.log("Not authenticated")
-          this.router.navigate(['login'])
-        }
-      },
-      err => {
-        console.log(err)
-        var errorMessage = err.error.message;
-        console.log(errorMessage)
-      }
-    );
-    return false;
-  }
-
+  
   sensorList(payload): Observable<any> {
     return this.http.get(AUTH_API + 'sensor/list',{params: payload});
   }
-
-  getListOfSensors(){
-    this.sensorList(this.payload).subscribe(
-      response => {
-        try {
-          if(response.success){
-            // sessionStorage.setItem("apiKey", response.access_token);
-            this.sListResponse(response.success);
-            console.log(response);
-            return true;
-          }
-          else if(response.failed){
-            console.log(response);
-            this.sListResponse(this.empty);
-            return false;
-          }
-          else{
-            this.sListResponse(response);
-          }
-        }catch (e){
-          console.log("Not authenticated");
-          this.router.navigate(['login']);
-        }
-      },
-      err => {
-        var errorMessage = err.error.message;
-        console.log(errorMessage);
-      }
-    );
-    return false;
-    }
 
   sensorHistory(payload): Observable<any> {
     //return this.http.post<any>(AUTH_API + 'sensor/data',{params: payload });
     return this.http.post<any>(AUTH_API + 'sensor/data', payload, { params: this.request_body, });
   }
-  getSensorHistory(){
-    this.sensorHistory(this.body).subscribe(
-      response => {
-        console.log(response);
-        try {
-          if(response.success){
-            // sessionStorage.setItem("apiKey", response.access_token);
-            this.sHistoryResponse(response.success);
-            console.log(response);
-            return true;
-          }
-          else if(response.failed){
-            console.log(response);
-            this.sHistoryResponse(this.empty);
-            return false;
-          }
-          else{
-            this.sHistoryResponse(response);
-          }
-        }catch(e){
-          this.router.navigate(['login'])
-        }
-      },
-      err => {
-        console.log(err)
-        var errorMessage = err.error.message;
-        console.log(errorMessage)
-      }
-      );
-    return false;
-    // this.http
-    //   .post<any>(AUTH_API + 'sensor/data', this.body, {
-    //     params: this.request_body,
-    //   })
-    //   .subscribe((res) => console.log(res));
-    }
 
 
-    getData(): Observable<any>{
-      return this.http.post<any>(AUTH_API + 'sensor/data', this.body, { params: this.request_body, });
-    }
-    
-    async checkData(){
-      var response = await this.getData().toPromise();
-      if (response) {
-          console.log("Inside");
-      }
-    }
-    
-    async proceed(){
-     await this.checkData();
-     console.log("finished");
-    }
 
-  responseMessage(message: any){
-    return this.message.next(message)
-  }
-  sCountResponse(sCount: any){
-    return this.sCount.next(sCount)
-  }
-  sListResponse(message: any){
-    return this.sList.next(message)
-  }
-  sHistoryResponse(message: any){
-    return this.sHistory.next(message)
-  }
 }
