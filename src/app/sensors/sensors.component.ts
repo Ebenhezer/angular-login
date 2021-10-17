@@ -221,10 +221,6 @@ export class SensorsComponent implements OnInit, AfterViewInit {
 
       this.chart = chart;
   }
-  
-  addSensor(){
-
-  }
 
   onSubmit(addDeviceForm: NgForm){
 

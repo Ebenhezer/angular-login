@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DataService } from '../service/data/data.service';
 import { SwitchesService } from './switches.service';
 
 @Component({
@@ -34,7 +35,8 @@ export class SwitchesComponent implements OnInit {
 
   dtOptions: DataTables.Settings = {};
 
-  constructor(private switchService: SwitchesService) {
+  constructor(private switchService: SwitchesService,
+              private dataSertvice: DataService) {
     // const sCountData = this.switchService.countSwitches();
     // this.switchService.sCountSwitches.subscribe(response_message => this.switches = response_message);
     // Number of switches
@@ -94,7 +96,7 @@ export class SwitchesComponent implements OnInit {
     var switch_state = "false";
     var switch_status = "Offline";
     var switch_details = "{}";
-    var switch_token = "key1";
+    var switch_token = this.dataSertvice.getRandomToken(25);
     var last_modified = "1634453839";
     var update_period = addDeviceForm.value.update_period;;
 

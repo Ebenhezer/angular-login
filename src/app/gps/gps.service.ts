@@ -41,4 +41,9 @@ export class GpsService {
     return this.http.post<any>(AUTH_API + 'gps/data', payload, { params: this.request_body, });
   }
 
+  addGps(payload): Observable<any> {
+    //return this.http.post<any>(AUTH_API + 'sensor/data',{params: payload });
+    return this.http.post<any>(AUTH_API + 'add/gps', payload, { params: payload });
+  }
+
 }
