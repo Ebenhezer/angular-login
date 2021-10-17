@@ -44,13 +44,13 @@ export class WorkstationsComponent implements OnInit {
     // Number of senstors
     this.workstationService.workstations(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
-        console.log(response);
+        (response);
         if(response.success){
           this.workstations = response.success;
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
 
@@ -60,33 +60,33 @@ export class WorkstationsComponent implements OnInit {
         try{
           if(response.success){
             this.workstationList = response.success;
-            console.log(response);
+            (response);
             return true;
           }
         }catch{
-          console.log("Failed to get sensor list");
+          ("Failed to get sensor list");
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
 
     // Sensor history
     this.workstationService.workstationHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
-        console.log(response);
+        (response);
         try{
           if(response.success){
             this.workstationData = response.success;
-            console.log(response);
+            (response);
           }
         }catch{
-          console.log("Failed to get workstation history");
+          ("Failed to get workstation history");
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
   }

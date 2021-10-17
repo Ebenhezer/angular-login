@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, NgZone, PLATFORM_ID, AfterViewInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SensorService } from './sensor.service';
+import { DataService } from '../service/data/data.service';
 
 // amCharts imports
 import * as am4core from '@amcharts/amcharts4/core';
@@ -9,6 +10,7 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import { HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { takeUntil } from "rxjs/operators";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'cf-sensors',
@@ -32,6 +34,7 @@ export class SensorsComponent implements OnInit, AfterViewInit {
   body=JSON.stringify(this.request_body);
   
   private chart: am4charts.XYChart;
+  formDataError = false;
 
   nrOfSensors: any = 0;
   sensorList: any = [];
@@ -42,25 +45,26 @@ export class SensorsComponent implements OnInit, AfterViewInit {
   dtOptions: DataTables.Settings = {};
 
   constructor(private sensorService: SensorService,
+              private dataSertvice: DataService,
               @Inject(PLATFORM_ID) private platformId, private zone: NgZone) { 
 
     // Number of sensors
     this.sensorService.sensors(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
-        console.log(response);
+        (response);
         try {
           if(response.success){
             this.nrOfSensors = response.success;
             return true;
           }
         }catch (e){
-          console.log("Not authenticated")
+          ("Not authenticated")
         }
       },
       err => {
-        console.log(err)
+        (err)
         var errorMessage = err.error.message;
-        console.log(errorMessage)
+        (errorMessage)
       }
     );
 
@@ -69,26 +73,26 @@ export class SensorsComponent implements OnInit, AfterViewInit {
       response => {
         try {
           if(response.success){
-            console.log(response);
+            (response);
             this.sensorList = response.success;
         }
         
         }catch (e){
-          console.log("Not authenticated");
+          ("Not authenticated");
         }
       },
       err => {
         var errorMessage = err.error.message;
-        console.log(errorMessage);
+        (errorMessage);
       });
 
     // Sensor history
     this.sensorService.sensorHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(response_message => {
       this.sensorData = response_message.success;
-      console.log(this.sensorData);
+      (this.sensorData);
     },
     err => {
-      console.log(err)
+      (err)
     });
 
   }
@@ -140,14 +144,14 @@ export class SensorsComponent implements OnInit, AfterViewInit {
     
     // Add data
     var chart_data = this.sensorData;
-    console.log(chart_data);
+    (chart_data);
     // Create axis
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
     // Create series
     function createSeries(name, data) {
-        console.log(data)
+        (data)
         var series = chart.series.push(new am4charts.LineSeries());
         series.data = data;
         series.dataFields.valueY = "sensor_value";
@@ -204,7 +208,7 @@ export class SensorsComponent implements OnInit, AfterViewInit {
         var sensor_name = sensor.sensor_name;
         var sensor_id = sensor.sensor_id;
         var trend_data = sensor.data
-        console.log(sensor)
+        (sensor)
         for (j = 0; j < trend_data.length; j++){
             var sensor_value = trend_data["sensor_value"];
             var update_time = trend_data["update_time"];
@@ -217,15 +221,56 @@ export class SensorsComponent implements OnInit, AfterViewInit {
 
       this.chart = chart;
   }
-  displayStyle = "none";
   
-  openPopup() {
-    this.displayStyle = "block";
-  }
-  closePopup() {
-    this.displayStyle = "none";
+  addSensor(){
+
   }
 
+  onSubmit(addDeviceForm: NgForm){
+
+    var sensor_owner = sessionStorage.getItem("user_id");
+    var sensor_name = addDeviceForm.value.sensor_name;
+    var sensor_type = addDeviceForm.value.sensor_type;
+    var sensor_value = "22";
+    var sensor_status = "Offline";
+    var sensor_details = "{}";
+    var sensor_token = this.dataSertvice.getRandomToken(25);
+    var last_modified = "1634453839";
+    var update_period = addDeviceForm.value.update_period;;
+
+    if(sensor_name == "" || sensor_type == "" || update_period == ""){
+      this.formDataError = true;
+    }
+    else{
+      this.formDataError = false;
+      var addSensorParams = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('sensor_owner', sensor_owner)
+      .append('sensor_name', sensor_name)
+      .append('sensor_type', sensor_type)
+      .append('sensor_value', sensor_value)
+      .append('sensor_status', sensor_status)
+      .append('sensor_details', sensor_details)
+      .append('sensor_token', sensor_token)
+      .append('last_modified', last_modified)
+      .append('update_period', update_period);
+
+      this.sensorService.addSensor(addSensorParams).pipe(takeUntil(this.destroy$)).subscribe(
+        response => {
+          (response);
+          if(response.success){
+            this.sensorData = response.success;
+            (response);
+            window.location.reload();
+          }
+        },
+        err => {
+          (err);
+        }
+      );
+    }
+   }
+  
   localData(){
     return [
       {

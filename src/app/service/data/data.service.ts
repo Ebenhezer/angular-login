@@ -60,9 +60,9 @@ export class DataService {
         }
       },
       err => {
-        console.log(err)
+        (err)
         var errorMessage = err.error.message;
-        console.log(errorMessage)
+        (errorMessage)
       }
       );
     return false;
@@ -81,5 +81,14 @@ export class DataService {
 
   responseMessage(message: string){
     return this.message.next(message)
+  }
+
+  getRandomToken(length) {
+    var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    for ( var i = 0; i < length; i++ ) {
+        result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+    }
+    return result;
   }
 }

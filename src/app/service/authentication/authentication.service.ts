@@ -39,7 +39,7 @@ export class AuthenticationService {
     }
   }
   login(payload): Observable<any> {
-    console.log(AUTH_API);
+    (AUTH_API);
     return this.http.post(AUTH_API + 'login', payload, httpOptions);
   }
   register(payload): Observable<any> {
@@ -61,7 +61,7 @@ export class AuthenticationService {
 
     this.login(payload).subscribe(
       response => {
-        console.log(response);
+        (response);
         if(response.access_token){
           sessionStorage.setItem("apiKey", response.access_token);
           sessionStorage.setItem("isAuthenticated", "true");
@@ -122,9 +122,9 @@ export class AuthenticationService {
         }
       },
       err => {
-        console.log(err)
+        (err)
         var errorMessage = err.error.message;
-        console.log(errorMessage)
+        (errorMessage)
       }
       );
     return false;

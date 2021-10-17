@@ -40,13 +40,13 @@ export class SwitchesComponent implements OnInit {
     // Number of switches
     this.switchService.switches(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
-        console.log(response);
+        (response);
         if(response.success){
           this.switches = response.success;
         }
       },
       err => {
-        console.log(err)
+        (err)
       }
     );
 
@@ -55,26 +55,26 @@ export class SwitchesComponent implements OnInit {
       response => {
         if(response.success){
           this.switchList = response.success;
-          console.log(response);
+          (response);
           return true;
         }
       },
       err => {
-        console.log(err)
+        (err)
       }
     );
     
     // Switch history
     this.switchService.switchHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
-        console.log(response);
+        (response);
         if(response.success){
           this.switchData = response.success;
-          console.log(response);
+          (response);
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
    }
@@ -119,22 +119,20 @@ export class SwitchesComponent implements OnInit {
 
       this.switchService.addSwitch(addSwitchParams).pipe(takeUntil(this.destroy$)).subscribe(
         response => {
-          console.log(response);
+          (response);
           if(response.success){
             this.switchData = response.success;
-            console.log(response);
+            (response);
             window.location.reload();
           }
         },
         err => {
-          console.log(err);
+          (err);
         }
       );
 
 
     }
    }
-  
-    // }
 
 }

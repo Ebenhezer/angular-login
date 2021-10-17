@@ -68,7 +68,6 @@ export class HomeComponent implements OnInit {
     const profileData = this.dataService.getProfile();
     this.dataService.profileData.pipe(takeUntil(this.destroy$)).subscribe(response =>{ 
       this.response_message = response;
-      console.log(response);
     });
 
     this.countSensors();
@@ -93,20 +92,20 @@ export class HomeComponent implements OnInit {
   countSensors(){
     this.sensorService.sensors(this.payload).subscribe(
       response => {
-        console.log(response);
+        (response);
         try {
           if(response.success){
             this.nrOfSensors = response.success;
             return true;
           }
         }catch (e){
-          console.log("Not authenticated")
+          ("Not authenticated")
         }
       },
       err => {
-        console.log(err)
+        (err)
         var errorMessage = err.error.message;
-        console.log(errorMessage)
+        (errorMessage)
       }
     );
   }
@@ -115,26 +114,26 @@ export class HomeComponent implements OnInit {
       response => {
         try {
           if(response.success){
-            console.log(response);
+            (response);
             this.sensorList = response.success;
           }
         
         }catch (e){
-          console.log("Not authenticated");
+          ("Not authenticated");
         }
       },
       err => {
         var errorMessage = err.error.message;
-        console.log(errorMessage);
+        (errorMessage);
       });
   }
   getSensorData(){
     this.sensorService.sensorHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(response => {
       this.sensorData = response.success;
-      console.log(this.sensorData);
+      (this.sensorData);
     },
     err => {
-      console.log(err)
+      (err)
     });
   }
 
@@ -142,13 +141,13 @@ export class HomeComponent implements OnInit {
   countSwitches(){
     this.switchService.switches(this.payload).subscribe(
       response => {
-        console.log(response);
+        (response);
         if(response.success){
           this.switches =  response.success;
         }
       },
       err => {
-        console.log(err)
+        (err)
       }
     );
   }
@@ -157,26 +156,26 @@ export class HomeComponent implements OnInit {
       response => {
         if(response.success){
           this.switchList = response.success;
-          console.log(response);
+          (response);
           return true;
         }
       },
       err => {
-        console.log(err)
+        (err)
       }
     );
   }
   getSwitchData(){
     this.switchService.switchHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
-        console.log(response);
+        (response);
         if(response.success){
           this.switchData = response.success;
-          console.log(response);
+          (response);
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
   }
@@ -185,13 +184,13 @@ export class HomeComponent implements OnInit {
   countWorkstations(){
     this.workstationService.workstations(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
-        console.log(response);
+        (response);
         if(response.success){
           this.workstations = response.success;
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
   }
@@ -201,15 +200,15 @@ export class HomeComponent implements OnInit {
         try{
           if(response.success){
             this.workstationList = response.success;
-            console.log(response);
+            (response);
             return true;
           }
         }catch{
-          console.log("Failed to get sensor list");
+          ("Failed to get sensor list");
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
 
@@ -217,18 +216,18 @@ export class HomeComponent implements OnInit {
   getWorkstationData(){
     this.workstationService.workstationHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
-        console.log(response);
+        (response);
         try{
           if(response.success){
             this.workstationData = response.success;
-            console.log(response);
+            (response);
           }
         }catch{
-          console.log("Failed to get workstation history");
+          ("Failed to get workstation history");
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
   }
@@ -239,16 +238,16 @@ export class HomeComponent implements OnInit {
       response => {
         try{
           if(response.success){
-            console.log(response);
+            (response);
             this.gps = response.success;
             return true;
           }
         }catch{
-          console.log("Failed to count gps");
+          ("Failed to count gps");
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
   }
@@ -258,15 +257,15 @@ export class HomeComponent implements OnInit {
         try{
           if(response.success){
             this.gpsList = response.success;
-            console.log(response);
+            (response);
             return true;
           }
         }catch{
-          console.log("Failed to get gps list");
+          ("Failed to get gps list");
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
   }
@@ -276,15 +275,15 @@ export class HomeComponent implements OnInit {
         try{
           if(response.success){
             this.gpsData = response.success;
-            console.log(response);
+            (response);
           }
         }catch{
-          console.log("Failed to get GPS history");
+          ("Failed to get GPS history");
         }
         
       },
       err => {
-        console.log(err)
+        (err)
       }
     );
   }

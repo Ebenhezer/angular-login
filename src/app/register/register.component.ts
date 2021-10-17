@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
       signUpForm.value.lastname);
     
     var register = this.authenticationService.signUp(signUpData);
-    console.log(register)
+    (register)
     if(!register){
       this.isFormInValid = false;
       this.areCredentialsInvalid= true;

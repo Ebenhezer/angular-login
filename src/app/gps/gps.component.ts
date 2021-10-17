@@ -49,16 +49,16 @@ export class GpsComponent implements OnInit {
       response => {
         try{
           if(response.success){
-            console.log(response);
+            (response);
             this.gps = response.success;
             return true;
           }
         }catch{
-          console.log("Failed to count gps");
+          ("Failed to count gps");
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
 
@@ -70,15 +70,15 @@ export class GpsComponent implements OnInit {
         try{
           if(response.success){
             this.gpsList = response.success;
-            console.log(response);
+            (response);
             return true;
           }
         }catch{
-          console.log("Failed to get gps list");
+          ("Failed to get gps list");
         }
       },
       err => {
-        console.log(err);
+        (err);
       }
     );
 
@@ -90,15 +90,15 @@ export class GpsComponent implements OnInit {
         try{
           if(response.success){
             this.gpsData = response.success;
-            console.log(response);
+            (response);
           }
         }catch{
-          console.log("Failed to get GPS history");
+          ("Failed to get GPS history");
         }
         
       },
       err => {
-        console.log(err)
+        (err)
       }
     );
   }
