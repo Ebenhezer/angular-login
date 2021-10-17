@@ -41,4 +41,9 @@ export class SwitchesService {
     return this.http.post<any>(AUTH_API + 'switch/data', payload, { params: this.request_body, });
   }
 
+  addSwitch(payload): Observable<any> {
+    //return this.http.post<any>(AUTH_API + 'switch/data',{params: payload });
+    return this.http.post<any>(AUTH_API + 'add/switch', payload, { params: this.request_body, });
+  }
+
 }

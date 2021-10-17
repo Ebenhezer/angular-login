@@ -15,24 +15,26 @@
     <div class="modal fade" id="AddDeviceModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="AddDeviceModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-          <form action="/dashboard/switches" method="post">
+          <form (ngSubmit)="onSubmit(addDeviceForm)" #addDeviceForm="ngForm">
           <div class="modal-header">
           <h5 class="modal-title" id="AddDeviceModalLabel">Add new switch</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+              <div *ngIf="formDataError == true">
+                <h5 class="alert alert-danger">Please fill all fields</h5>
+              </div>
               <div class="form-group">
-                  <label  class="col-sm-5 control-label"
-                          for="inputNotes">Switch name</label>
+                  <label  class="col-sm-5 control-label" for="inputNotes">Switch name</label>
                   <div class="col-sm-10">
                       <input type="text" class="form-control" required
-                      id="newnote" name ="switch_name" placeholder="Switch name"/>
+                      id="newnote" name ="switch_name" placeholder="Enter switch name" ngModel />
                   </div>
               </div>
               <div class="form-group">
                   <label for = "type" class = "col-sm-5 control-label">Type</label>
                   <div class = "col-sm-10">
-                      <select class = "form-select" id = "switch_type" name="switch_type">
+                      <select class = "form-select" id = "switch_type" name="switch_type" ngModel required>
                           <option value="Normally closed">Normally closed</option>
                           <option value="Normally open">Normally open</option>
                       </select>
@@ -41,7 +43,7 @@
               <div class="form-group">
                   <label for = "type" class = "col-sm-5 control-label">Expected update period</label>
                   <div class = "col-sm-10">
-                      <select class = "form-select" id = "update_period" name="update_period">
+                      <select class = "form-select" id = "update_period" name="update_period" ngModel required>
                           <!-- <option value="5">30 seconds</option> -->
                           <option value="60">1 minute</option>
                           <option value="180">3 minutes</option>
@@ -53,7 +55,6 @@
                       </select>
                   </div>
               </div>
-              ...
           </div>
           <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -66,7 +66,10 @@ export class HomeComponent implements OnInit {
     };
   
     const profileData = this.dataService.getProfile();
-    this.dataService.profileData.pipe(takeUntil(this.destroy$)).subscribe(response_message => this.response_message = response_message);
+    this.dataService.profileData.pipe(takeUntil(this.destroy$)).subscribe(response =>{ 
+      this.response_message = response;
+      console.log(response);
+    });
 
     this.countSensors();
     this.getSensorData();

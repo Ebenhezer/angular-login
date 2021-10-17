@@ -34,8 +34,17 @@ export class DataService {
     this.profile(this.payload).subscribe(
       response => {
         if(response.success){
-          // sessionStorage.setItem("apiKey", response.access_token);
+          //Assign the profile information to the session
           this.responseMessage(response.success);
+          sessionStorage.setItem("user_id", response.success["user_id"]);
+          sessionStorage.setItem("email", response.success["email"]);
+          sessionStorage.setItem("firstname", response.success["firstname"]);
+          sessionStorage.setItem("surname", response.success["surname"]);
+          sessionStorage.setItem("gender", response.success["gender"]);
+          sessionStorage.setItem("username", response.success["username"]);
+          sessionStorage.setItem("api_key", response.success["api_key"]);
+          sessionStorage.setItem("cellphone", response.success["cellphone"]);
+          sessionStorage.setItem("date_of_birth", response.success["date_of_birth"]);
           return true;
         }
         else if(response.failed){
