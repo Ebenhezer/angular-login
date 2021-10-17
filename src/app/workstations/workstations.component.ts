@@ -1,7 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DataService } from '../service/data/data.service';
 import { WorkstationsService } from './workstations.service';
 
 @Component({
@@ -24,7 +26,7 @@ export class WorkstationsComponent implements OnInit {
       .append('max_epoch_tm_sec', '1999999999');
 
   body=JSON.stringify(this.request_body);
-
+  formDataError = false;
   workstations:any = 0;
   workstationList: any = [];
   workstationData: any  = [];
@@ -32,7 +34,7 @@ export class WorkstationsComponent implements OnInit {
   title = 'datatables';
   dtOptions: DataTables.Settings = {};
 
-  constructor(private workstationService: WorkstationsService) { }
+  constructor(private workstationService: WorkstationsService, private dataSertvice: DataService) { }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -54,7 +56,7 @@ export class WorkstationsComponent implements OnInit {
       }
     );
 
-    // Sensor list
+    // workstation list
     this.workstationService.workstationList(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         try{
@@ -64,7 +66,7 @@ export class WorkstationsComponent implements OnInit {
             return true;
           }
         }catch{
-          ("Failed to get sensor list");
+          ("Failed to get workstation list");
         }
       },
       err => {
@@ -72,7 +74,7 @@ export class WorkstationsComponent implements OnInit {
       }
     );
 
-    // Sensor history
+    // workstation history
     this.workstationService.workstationHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         (response);
@@ -90,5 +92,44 @@ export class WorkstationsComponent implements OnInit {
       }
     );
   }
+
+  addWorkstation(addDeviceForm: NgForm){
+
+    var workstation_owner = sessionStorage.getItem("user_id");
+    var workstation_name = addDeviceForm.value.workstation_name;
+    var workstation_type = addDeviceForm.value.workstation_type;
+    var workstation_token = this.dataSertvice.getRandomToken(25);
+    var last_modified = "1634453839";
+    var update_period = addDeviceForm.value.update_period;;
+
+    if(workstation_name == "" || workstation_type == "" || update_period == ""){
+      this.formDataError = true;
+    }
+    else{
+      this.formDataError = false;
+      var addworkstationParams = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('ws_owner', workstation_owner)
+      .append('ws_name', workstation_name)
+      .append('ws_type', workstation_type)
+      .append('ws_token', workstation_token)
+      .append('last_modified', last_modified)
+      .append('update_period', update_period);
+
+      this.workstationService.addWorkstation(addworkstationParams).pipe(takeUntil(this.destroy$)).subscribe(
+        response => {
+          (response);
+          if(response.success){
+            this.workstationData = response.success;
+            (response);
+            window.location.reload();
+          }
+        },
+        err => {
+          (err);
+        }
+      );
+    }
+   }
 
 }

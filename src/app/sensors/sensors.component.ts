@@ -222,7 +222,7 @@ export class SensorsComponent implements OnInit, AfterViewInit {
       this.chart = chart;
   }
 
-  onSubmit(addDeviceForm: NgForm){
+  addSensor(addDeviceForm: NgForm){
 
     var sensor_owner = sessionStorage.getItem("user_id");
     var sensor_name = addDeviceForm.value.sensor_name;

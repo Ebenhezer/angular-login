@@ -1,5 +1,5 @@
 <div class="content">
-
+  <div class="row">
     <!-- Button trigger modal -->
     <div class="row">
       <div class="col-md-12">
@@ -14,24 +14,27 @@
     <div class="modal fade" id="AddDeviceModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="AddDeviceModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-          <form action="/dashboard/workstations" method="post">
+          <form (ngSubmit)="addWorkstation(addDeviceForm)" #addDeviceForm="ngForm">
           <div class="modal-header">
           <h5 class="modal-title" id="AddDeviceModalLabel">Add new workstation</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+              <div *ngIf="formDataError == true">
+                <h5 class="alert alert-danger">Please fill all fields</h5>
+              </div>
               <div class="form-group">
                   <label  class="col-sm-5 control-label"
                           for="inputNotes">workstation name</label>
                   <div class="col-sm-10">
-                      <input type="text" class="form-control" required
+                      <input type="text" class="form-control" required ngModel
                       id="workstation_name" name ="workstation_name" placeholder="Put here the note"/>
                   </div>
               </div>
               <div class="form-group">
                   <label for = "type" class = "col-sm-5 control-label">Type</label>
                   <div class = "col-sm-10">
-                      <select class = "form-select" id = "workstation_type" name="workstation_type">
+                      <select class = "form-select" id = "workstation_type" name="workstation_type" ngModel>
                           <option value="Custom">Custom</option>
                           <option value="Linux">Linux</option>
                           <option value="Windows">Windows</option>
@@ -41,7 +44,7 @@
               <div class="form-group">
                   <label for = "type" class = "col-sm-5 control-label">Expected update period</label>
                   <div class = "col-sm-10">
-                      <select class = "form-select" id = "update_period" name="update_period">
+                      <select class = "form-select" id = "update_period" name="update_period" ngModel>
                           <!-- <option value="5">30 seconds</option> -->
                           <option value="60">1 minute</option>
                           <option value="180">3 minutes</option>
@@ -129,6 +132,6 @@
           </div>
         </div>
     </div>
-  
   </div>
+</div>
   
