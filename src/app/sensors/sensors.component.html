@@ -83,12 +83,15 @@
         </div>
         <div class="card-body" >
           <h4 class="card-title" >Sensor name: {{sensor.sensor_name}}  </h4>
-          <h5 class="card-category" id="sensor_id" #sensor_id  name="sensor_id">Sensor ID: {{sensor.sensor_id}}</h5>
+          <h5 class="card-category" id="sensor_id" #sensor_id  name="sensor_id">Sensor ID: </h5>
+          {{sensor.sensor_id}}
           <h5 class="card-category">Sensor type: {{sensor.sensor_type}}</h5>
           <h5 class="card-category">Sensor status: {{sensor.sensor_status}}</h5>
           <h5 class="card-category" name="sensor_token">Sensor token: {{sensor.sensor_token}}</h5>
   
-          <button class="btn btn-primary" name = "edit" value="{{sensor.sensor_id}}" >Edit</button>
+          <button class="btn btn-primary" name = "edit" (click)="setEditParameters(sensor.sensor_name, sensor.sensor_token, sensor.update_period)"
+                  name = "sensor" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditDeviceModal" >Edit</button>
+
           <button type="submit" (click)="setDeleteSensorParams(sensor.sensor_id, sensor.sensor_name, sensor.sensor_token)" name = "sensor" class="btn btn-primary" data-bs-toggle="modal" 
                   data-bs-target="#DeleteDeviceModal" >Delete</button>
             <!-- <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
@@ -124,6 +127,63 @@
       </div>
     </div>
 
+    <!-- Edit sensor information modal -->
+    <div class="modal fade" id="EditDeviceModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="EditDeviceModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <form (ngSubmit)="editSensor(editDeviceForm)" #editDeviceForm="ngForm">
+          <div class="modal-header">
+          <h5 class="modal-title" id="EditDeviceModalLabel">Edit sensor information</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div *ngIf="editFormError == true">
+                <h5 class="alert alert-danger">Please fill all fields</h5>
+              </div>
+              <div class="form-group">
+                  <label  class="col-sm-5 control-label"
+                          for="inputNotes">Sensor name</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control" value="{{editSensorName}}" required
+                      id="sensor_name" name ="sensor_name" placeholder="Put here the note"/>
+                  </div>
+              </div>
+
+              <div class="form-group">
+                <label  class="col-sm-5 control-label"
+                        for="inputNotes">Sensor token</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" value="{{editSensorToken}}" required
+                    id="sensor_token" name ="sensor_token" placeholder="Put here the note"/>
+                </div>
+              </div>
+             
+              <div class="form-group">
+                  <label for = "type" class = "col-sm-5 control-label">Expected update period</label>
+                  <div class = "col-sm-10">
+                      <select class = "form-select" id = "update_period" name="update_period" ngModel>
+                          <!-- <option value="5">30 seconds</option> -->
+                          <option value="60">1 minute</option>
+                          <option value="180">3 minutes</option>
+                          <option value="300">5 minutes</option>
+                          <option value="600">10 minute</option>
+                          <option value="900">15 minutes</option>
+                          <option value="1800">30 minutes</option>
+                          <option value="3600"> 1 hour</option>
+                      </select>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" >Save</button>
+          </div>
+          </form>
+      </div>
+      </div>
+    </div>
+
+    <!-- Trend plot -->
     <div class="col-md-12">
       <div class="card" >
         <div class="card-header card-header-warning">

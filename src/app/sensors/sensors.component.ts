@@ -35,6 +35,8 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   
   private chart: am4charts.XYChart;
   formDataError = false;
+  editFormError = false;
+
 
   nrOfSensors: any = 0;
   sensorList: any = [];
@@ -44,7 +46,10 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   deleteSensorID:any;
   deleteSensorName:any;
   deleteSensorToken:any;
-  deleteConfirmation: boolean = false;
+
+  editSensorName:any;
+  editSensorToken:any;
+  editSensorUpdatePerios:any;
 
   @Input() testData: any ;
 
@@ -310,6 +315,25 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
 
    }
   
+   setEditParameters(sensor_name, sensor_token, update_period){
+    this.editSensorName = sensor_name;
+    this.editSensorToken = sensor_token;
+    this.editSensorUpdatePerios = update_period;
+   }
+   editSensor(editDeviceForm: NgForm){
+    
+    var sensor_name = editDeviceForm.value.sensor_name;
+    var sensor_token = editDeviceForm.value.sensor_type;
+    var update_period = editDeviceForm.value.update_period;;
+
+    if(sensor_name == "" || sensor_token == "" || update_period == ""){
+      this.editFormError = true;
+    }
+    else{
+        console.log("Editting..");
+    }
+    
+   }
   localData(){
     return [
       {
