@@ -35,8 +35,6 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   
   private chart: am4charts.XYChart;
   formDataError = false;
-  editFormError = false;
-
 
   nrOfSensors: any = 0;
   sensorList: any = [];
@@ -50,6 +48,7 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   editSensorName:any;
   editSensorToken:any;
   editSensorUpdatePerios:any;
+  editFormError = false;
 
   @Input() testData: any ;
 
@@ -285,8 +284,6 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
    }
 
    deleteSensor(){
-    console.log(this.deleteSensorID);
-    console.log(this.deleteSensorToken);
     var deleteSensorParams = new HttpParams()
       .append('api_key', this.apiKey)
       .append('sensor_id', this.deleteSensorID)
@@ -296,8 +293,6 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
     this.sensorService.deleteSensor(deleteSensorParams).pipe(takeUntil(this.destroy$)).subscribe(
         response => {
           if(response.success){
-            this.sensorData = response.success;
-            console.log(response);
             window.location.reload();
           }
           console.log(response);
@@ -320,7 +315,7 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
     
     var sensor_name = editDeviceForm.value.sensor_name;
     var sensor_token = editDeviceForm.value.sensor_type;
-    var update_period = editDeviceForm.value.update_period;;
+    var update_period = editDeviceForm.value.update_period;
 
     if(sensor_name == "" || sensor_token == "" || update_period == ""){
       this.editFormError = true;

@@ -33,6 +33,15 @@ export class SwitchesComponent implements OnInit {
   switchData: any  = [];
   chartData: any;
 
+  deleteDeviceID:any;
+  deleteDeviceName:any;
+  deleteDeviceToken:any;
+
+  editDeviceName:any;
+  editDeviceToken:any;
+  editDeviceUpdatePerios:any;
+  editFormError = false;
+
   dtOptions: DataTables.Settings = {};
 
   constructor(private switchService: SwitchesService,
@@ -134,6 +143,51 @@ export class SwitchesComponent implements OnInit {
       );
 
 
+    }
+   }
+   setDeleterParams(switch_id, switch_name, switch_token){
+    this.deleteDeviceID = Number(switch_id);
+    this.deleteDeviceName = String(switch_name);
+    this.deleteDeviceToken = String(switch_token);
+   }
+
+   deleteDevice(){
+    var deleteSensorParams = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('switch_id', this.deleteDeviceID)
+      .append('switch_token', this.deleteDeviceToken)
+
+
+    this.switchService.deleteDevice(deleteSensorParams).pipe(takeUntil(this.destroy$)).subscribe(
+        response => {
+          if(response.success){
+            window.location.reload();
+          }
+          console.log(response);
+        },
+        err => {
+          console.log(err);
+        }
+        
+      );
+
+   }
+
+   setEditParams(switch_name, switch_token, update_period){
+    this.editDeviceName = switch_name;
+    this.editDeviceToken = switch_token;
+    this.editDeviceUpdatePerios = update_period;
+   }
+   editDevice(editDeviceForm: NgForm){
+    var switch_name = editDeviceForm.value.switch_name;
+    var switch_token = editDeviceForm.value.switch_type;
+    var update_period = editDeviceForm.value.update_period;
+
+    if(switch_name == "" || switch_token == "" || update_period == ""){
+      this.editFormError = true;
+    }
+    else{
+        console.log("Editting..");
     }
    }
 

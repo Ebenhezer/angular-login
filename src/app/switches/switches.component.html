@@ -78,13 +78,98 @@
           <h5 class="card-category">Switch status: {{switch.switch_status}}</h5>
           <h5 class="card-category">Switch token: {{switch.switch_token}}</h5>
           <p class="card-category">
-            <!-- <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
+          
+          <button class="btn btn-primary" name = "edit" (click)="setEditParams(switch.switch_name, switch.switch_token, switch.update_period)"
+            name = "switch" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditDeviceModal" >Edit</button>
+
+          <button type="submit" (click)="setDeleterParams(switch.switch_id, switch.switch_name, switch.switch_token)" name = "switch" class="btn btn-primary" data-bs-toggle="modal" 
+            data-bs-target="#DeleteDeviceModal" >Delete</button>
+
         </div>
         <div class="card-footer">
           <div class="stats">
             <i class="material-icons">access_time</i> updated 4 minutes ago
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Delete device Modal. Opens after clicking the button-->
+    <div class="modal fade" id="DeleteDeviceModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="DeleteDeviceModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <form #deleteDeviceForm="ngForm">
+          <div class="modal-header">
+          <h5 class="modal-title" id="DeleteDeviceModalLabel">Delete device</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              Are you sure you want to delete the following device?
+              <label  class="col-sm-12 control-label" for="inputNotes">Switch name: {{deleteDeviceName}} </label>
+              <label  class="col-sm-12 control-label" for="inputNotes">Switch ID: {{deleteDeviceID}} </label>
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" (click)="deleteDevice()" class="btn btn-primary" >Delete</button>
+          </div>
+          </form>
+      </div>
+      </div>
+    </div>
+
+    <!-- Edit device information modal -->
+    <div class="modal fade" id="EditDeviceModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="EditDeviceModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <form (ngSubmit)="editDevice(editDeviceForm)" #editDeviceForm="ngForm">
+          <div class="modal-header">
+          <h5 class="modal-title" id="EditDeviceModalLabel">Edit device information</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div *ngIf="editFormError == true">
+                <h5 class="alert alert-danger">Please fill all fields</h5>
+              </div>
+              <div class="form-group">
+                  <label  class="col-sm-5 control-label"
+                          for="inputNotes">Switch name</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control" value="{{editDeviceName}}" required
+                      id="switch_name" name ="switch_name" />
+                  </div>
+              </div>
+
+              <div class="form-group">
+                <label  class="col-sm-5 control-label"
+                        for="inputNotes">Switch token</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" value="{{editDeviceToken}}" required
+                    id="switch_token" name ="switch_token"/>
+                </div>
+              </div>
+             
+              <div class="form-group">
+                  <label for = "type" class = "col-sm-5 control-label">Expected update period</label>
+                  <div class = "col-sm-10">
+                      <select class = "form-select" id = "update_period" name="update_period" ngModel>
+                          <!-- <option value="5">30 seconds</option> -->
+                          <option value="60">1 minute</option>
+                          <option value="180">3 minutes</option>
+                          <option value="300">5 minutes</option>
+                          <option value="600">10 minute</option>
+                          <option value="900">15 minutes</option>
+                          <option value="1800">30 minutes</option>
+                          <option value="3600"> 1 hour</option>
+                      </select>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" >Save</button>
+          </div>
+          </form>
+      </div>
       </div>
     </div>
   
