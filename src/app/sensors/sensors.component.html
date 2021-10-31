@@ -89,7 +89,7 @@
           <h5 class="card-category" name="sensor_token">Sensor token: {{sensor.sensor_token}}</h5>
   
           <button class="btn btn-primary" name = "edit" value="{{sensor.sensor_id}}" >Edit</button>
-          <button type="submit" (click)="deleteSensor(sensor.sensor_id, sensor.sensor_name, sensor.sensor_token)" name = "sensor" class="btn btn-primary" data-bs-toggle="modal" 
+          <button type="submit" (click)="setDeleteSensorParams(sensor.sensor_id, sensor.sensor_name, sensor.sensor_token)" name = "sensor" class="btn btn-primary" data-bs-toggle="modal" 
                   data-bs-target="#DeleteDeviceModal" >Delete</button>
             <!-- <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
         </div>
@@ -117,7 +117,7 @@
           </div>
           <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" >Delete sensor</button>
+          <button type="submit" (click)="deleteSensor()" class="btn btn-primary" >Delete sensor</button>
           </div>
           </form>
       </div>

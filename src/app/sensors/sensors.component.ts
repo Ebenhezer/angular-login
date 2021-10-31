@@ -44,6 +44,7 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   deleteSensorID:any;
   deleteSensorName:any;
   deleteSensorToken:any;
+  deleteConfirmation: boolean = false;
 
   @Input() testData: any ;
 
@@ -276,10 +277,35 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
     }
    }
 
-   deleteSensor(sensor_id, sensor_name, sensor_token){
-    this.deleteSensorID = sensor_id;
-    this.deleteSensorName = sensor_name;
-    this.deleteSensorToken = sensor_token;
+   setDeleteSensorParams(sensor_id, sensor_name, sensor_token){
+    this.deleteSensorID = Number(sensor_id);
+    this.deleteSensorName = String(sensor_name);
+    this.deleteSensorToken = String(sensor_token);
+   }
+
+   deleteSensor(){
+    console.log(this.deleteSensorID);
+    console.log(this.deleteSensorToken);
+    var deleteSensorParams = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('sensor_id', this.deleteSensorID)
+      .append('sensor_token', this.deleteSensorToken)
+
+
+    this.sensorService.deleteSensor(deleteSensorParams).pipe(takeUntil(this.destroy$)).subscribe(
+        response => {
+          if(response.success){
+            this.sensorData = response.success;
+            console.log(response);
+            window.location.reload();
+          }
+          console.log(response);
+        },
+        err => {
+          console.log(err);
+        }
+        
+      );
 
 
    }
