@@ -152,13 +152,13 @@ export class SwitchesComponent implements OnInit {
    }
 
    deleteDevice(){
-    var deleteSensorParams = new HttpParams()
+    var deleteParams = new HttpParams()
       .append('api_key', this.apiKey)
       .append('switch_id', this.deleteDeviceID)
       .append('switch_token', this.deleteDeviceToken)
 
 
-    this.switchService.deleteDevice(deleteSensorParams).pipe(takeUntil(this.destroy$)).subscribe(
+    this.switchService.deleteDevice(deleteParams).pipe(takeUntil(this.destroy$)).subscribe(
         response => {
           if(response.success){
             window.location.reload();

@@ -33,6 +33,15 @@ export class GpsComponent implements OnInit {
   gpsList: any = [];
   gpsData: any  = [];
 
+  deleteDeviceID:any;
+  deleteDeviceName:any;
+  deleteDeviceToken:any;
+
+  editDeviceName:any;
+  editDeviceToken:any;
+  editDeviceUpdatePerios:any;
+  editFormError = false;
+
   title = 'datatables';
   dtOptions: DataTables.Settings = {};
 
@@ -148,6 +157,52 @@ export class GpsComponent implements OnInit {
           (err);
         }
       );
+    }
+   }
+
+   setDeleterParams(switch_id, switch_name, switch_token){
+    this.deleteDeviceID = Number(switch_id);
+    this.deleteDeviceName = String(switch_name);
+    this.deleteDeviceToken = String(switch_token);
+   }
+
+   deleteDevice(){
+    var deleteParams = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('gps_id', this.deleteDeviceID)
+      .append('gps_token', this.deleteDeviceToken)
+
+
+    this.gpsService.deleteDevice(deleteParams).pipe(takeUntil(this.destroy$)).subscribe(
+        response => {
+          if(response.success){
+            window.location.reload();
+          }
+          console.log(response);
+        },
+        err => {
+          console.log(err);
+        }
+        
+      );
+
+   }
+
+   setEditParams(switch_name, switch_token, update_period){
+    this.editDeviceName = switch_name;
+    this.editDeviceToken = switch_token;
+    this.editDeviceUpdatePerios = update_period;
+   }
+   editDevice(editDeviceForm: NgForm){
+    var gps_name = editDeviceForm.value.gps_name;
+    var gps_token = editDeviceForm.value.gps_type;
+    var update_period = editDeviceForm.value.update_period;
+
+    if(gps_name == "" || gps_token == "" || update_period == ""){
+      this.editFormError = true;
+    }
+    else{
+        console.log("Editting..");
     }
    }
 

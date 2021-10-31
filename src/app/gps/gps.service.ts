@@ -46,4 +46,9 @@ export class GpsService {
     return this.http.post<any>(AUTH_API + 'add/gps', payload, { params: payload });
   }
 
+  deleteDevice(payload): Observable<any> {
+    //return this.http.post<any>(AUTH_API + 'sensor/data',{params: payload });
+    return this.http.post<any>(AUTH_API + 'delete/gps', payload, { params: payload, });
+  }
+
 }
