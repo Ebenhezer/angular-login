@@ -102,7 +102,6 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
         response => {
           try {
             if(response.success){
-              console.log(response);
               this.sensorList = response.success;
           }
           
@@ -120,7 +119,6 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
             this.sensorData = response_message.success;
             this.testData = response_message.success;
             this.drawTrends();
-            console.log(response_message)
         }
       },
       err => {
@@ -162,7 +160,6 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
     
     // Add data
     var chart_data = this.sensorData;
-    console.log(chart_data);
     // Create axis
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -220,7 +217,6 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
         return series;
     }
     var i=0, j=0;
-    console.log(chart_data);
     for (i = 0; i < chart_data.length; i++){
         var sensor = chart_data[i];
         var sensor_name = sensor.sensor_name;
