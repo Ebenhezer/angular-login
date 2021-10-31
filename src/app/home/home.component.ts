@@ -105,7 +105,6 @@ export class HomeComponent implements OnInit {
       err => {
         (err)
         var errorMessage = err.error.message;
-        (errorMessage)
       }
     );
   }
@@ -124,7 +123,6 @@ export class HomeComponent implements OnInit {
       },
       err => {
         var errorMessage = err.error.message;
-        (errorMessage);
       });
   }
   getSensorData(){

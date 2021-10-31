@@ -14,7 +14,6 @@ export class SensorService {
 
   constructor(private router: Router, private http: HttpClient) { }
 
-  empty = [];
   apiKey= sessionStorage.getItem("apiKey");
   payload ={
     "api_key":this.apiKey,

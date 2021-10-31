@@ -62,7 +62,6 @@ export class DataService {
       err => {
         (err)
         var errorMessage = err.error.message;
-        (errorMessage)
       }
       );
     return false;

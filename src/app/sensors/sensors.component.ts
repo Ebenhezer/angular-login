@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, NgZone, PLATFORM_ID, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, NgZone, PLATFORM_ID, AfterViewInit, OnChanges, SimpleChange, Input, SimpleChanges } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SensorService } from './sensor.service';
 import { DataService } from '../service/data/data.service';
@@ -18,7 +18,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./sensors.component.scss',
               '../../assets/css/material-dashboard.css']
 })
-export class SensorsComponent implements OnInit, AfterViewInit {
+export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   destroy$: Subject<boolean> = new Subject<boolean>();
   apiKey= sessionStorage.getItem("apiKey");
   payload ={
@@ -40,71 +40,82 @@ export class SensorsComponent implements OnInit, AfterViewInit {
   sensorList: any = [];
   sensorData: any = [];
   chartData: any =[];
+  @Input() testData: any ;
 
-  title = 'datatables';
   dtOptions: DataTables.Settings = {};
 
   constructor(private sensorService: SensorService,
               private dataSertvice: DataService,
               @Inject(PLATFORM_ID) private platformId, private zone: NgZone) { 
-
-    // Number of sensors
-    this.sensorService.sensors(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
-      response => {
-        (response);
-        try {
-          if(response.success){
-            this.nrOfSensors = response.success;
-            return true;
-          }
-        }catch (e){
-          ("Not authenticated")
-        }
-      },
-      err => {
-        (err)
-        var errorMessage = err.error.message;
-        (errorMessage)
-      }
-    );
-
-    // Sensor list
-    this.sensorService.sensorList(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
-      response => {
-        try {
-          if(response.success){
-            (response);
-            this.sensorList = response.success;
-        }
-        
-        }catch (e){
-          ("Not authenticated");
-        }
-      },
-      err => {
-        var errorMessage = err.error.message;
-        (errorMessage);
-      });
-
-    // Sensor history
-    this.sensorService.sensorHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(response_message => {
-      this.sensorData = response_message.success;
-      (this.sensorData);
-    },
-    err => {
-      (err)
-    });
-
+    
+    this.getData();
   }
 
   ngOnInit(): void {
-
+    
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true
     };
+  }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes.testData.firstChange) {
+      // only logged upon a change after rendering
+      console.log(changes.testData.currentValue);
+    }
+    console.log(changes.testData.currentValue);
+  }
+
+  getData(){
+      // Number of sensors
+    this.sensorService.sensors(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
+        response => {
+          try {
+            if(response.success){
+              this.nrOfSensors = response.success;
+              return true;
+            }
+          }catch (e){
+            ("Not authenticated")
+          }
+        },
+        err => {
+          var errorMessage = err.error.message;
+        }
+      );
+  
+      // Sensor list
+      this.sensorService.sensorList(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
+        response => {
+          try {
+            if(response.success){
+              console.log(response);
+              this.sensorList = response.success;
+          }
+          
+          }catch (e){
+            console.log("Not authenticated");
+          }
+        },
+        err => {
+          var errorMessage = err.error.message;
+        });
+  
+      // Sensor history
+      this.sensorService.sensorHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(response_message => {
+        if (response_message.length !== 0){
+            this.sensorData = response_message.success;
+            this.testData = response_message.success;
+            this.drawTrends();
+            console.log(response_message)
+        }
+      },
+      err => {
+        (err)
+      });
+    //   console.log(this.sensorData);
   }
   // Run the function only in the browser
   browserOnly(f: () => void) {
@@ -116,7 +127,7 @@ export class SensorsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.drawTrends();
+    // this.drawTrends();
   }
   
   ngOnDestroy() {
@@ -126,10 +137,6 @@ export class SensorsComponent implements OnInit, AfterViewInit {
         this.chart.dispose();
       }
     });
-  }
-
-  openModal(){
-    //Used to control the add device modal
   }
 
   drawTrends(){
@@ -144,14 +151,13 @@ export class SensorsComponent implements OnInit, AfterViewInit {
     
     // Add data
     var chart_data = this.sensorData;
-    (chart_data);
+    console.log(chart_data);
     // Create axis
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
     // Create series
     function createSeries(name, data) {
-        (data)
         var series = chart.series.push(new am4charts.LineSeries());
         series.data = data;
         series.dataFields.valueY = "sensor_value";
@@ -203,12 +209,12 @@ export class SensorsComponent implements OnInit, AfterViewInit {
         return series;
     }
     var i=0, j=0;
+    console.log(chart_data);
     for (i = 0; i < chart_data.length; i++){
         var sensor = chart_data[i];
         var sensor_name = sensor.sensor_name;
         var sensor_id = sensor.sensor_id;
         var trend_data = sensor.data
-        (sensor)
         for (j = 0; j < trend_data.length; j++){
             var sensor_value = trend_data["sensor_value"];
             var update_time = trend_data["update_time"];
@@ -265,6 +271,10 @@ export class SensorsComponent implements OnInit, AfterViewInit {
         }
       );
     }
+   }
+
+   deleteSensor(sensor_id){
+    console.log(sensor_id);
    }
   
   localData(){
