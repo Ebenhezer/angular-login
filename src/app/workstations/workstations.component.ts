@@ -31,6 +31,15 @@ export class WorkstationsComponent implements OnInit {
   workstationList: any = [];
   workstationData: any  = [];
 
+  deleteDeviceID:any;
+  deleteDeviceName:any;
+  deleteDeviceToken:any;
+
+  editDeviceName:any;
+  editDeviceToken:any;
+  editDeviceUpdatePerios:any;
+  editFormError = false;
+
   title = 'datatables';
   dtOptions: DataTables.Settings = {};
 
@@ -100,7 +109,7 @@ export class WorkstationsComponent implements OnInit {
     var workstation_type = addDeviceForm.value.workstation_type;
     var workstation_token = this.dataSertvice.getRandomToken(25);
     var last_modified = "1634453839";
-    var update_period = addDeviceForm.value.update_period;;
+    var update_period = addDeviceForm.value.update_period;
 
     if(workstation_name == "" || workstation_type == "" || update_period == ""){
       this.formDataError = true;
@@ -129,6 +138,51 @@ export class WorkstationsComponent implements OnInit {
           (err);
         }
       );
+    }
+   }
+
+   setDeleterParams(ws_id, ws_name, ws_token){
+    this.deleteDeviceID = Number(ws_id);
+    this.deleteDeviceName = String(ws_name);
+    this.deleteDeviceToken = String(ws_token);
+   }
+
+   deleteDevice(){
+    var deleteParams = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('ws_id', this.deleteDeviceID)
+      .append('ws_token', this.deleteDeviceToken)
+
+    this.workstationService.deleteDevice(deleteParams).pipe(takeUntil(this.destroy$)).subscribe(
+        response => {
+          if(response.success){
+            window.location.reload();
+          }
+          console.log(response);
+        },
+        err => {
+          console.log(err);
+        }
+        
+      );
+
+   }
+
+   setEditParams(ws_name, ws_token, update_period){
+    this.editDeviceName = ws_name;
+    this.editDeviceToken = ws_token;
+    this.editDeviceUpdatePerios = update_period;
+   }
+   editDevice(editDeviceForm: NgForm){
+    var ws_name = editDeviceForm.value.ws_name;
+    var ws_token = editDeviceForm.value.ws_token;
+    var update_period = editDeviceForm.value.update_period;
+
+    if(ws_name == "" || ws_token == "" || update_period == ""){
+      this.editFormError = true;
+    }
+    else{
+        console.log("Editting..");
     }
    }
 
