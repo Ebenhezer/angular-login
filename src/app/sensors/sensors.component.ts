@@ -2,15 +2,15 @@ import { Component, OnInit, Inject, NgZone, PLATFORM_ID, AfterViewInit, OnChange
 import { isPlatformBrowser } from '@angular/common';
 import { SensorService } from './sensor.service';
 import { DataService } from '../service/data/data.service';
+import { HttpParams } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { takeUntil } from "rxjs/operators";
+import { NgForm } from '@angular/forms';
 
 // amCharts imports
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-import { HttpParams } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { takeUntil } from "rxjs/operators";
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'cf-sensors',
@@ -148,8 +148,7 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   drawTrends(){
-    // Chart code goes in here
-    
+
     am4core.useTheme(am4themes_animated);
 
     // Create chart instance

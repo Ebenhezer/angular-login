@@ -6,6 +6,11 @@ import { takeUntil } from 'rxjs/operators';
 import { DataService } from '../service/data/data.service';
 import { WorkstationsService } from './workstations.service';
 
+// amCharts imports
+import * as am4core from '@amcharts/amcharts4/core';
+import * as am4charts from '@amcharts/amcharts4/charts';
+import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+
 @Component({
   selector: 'cf-workstations',
   templateUrl: './workstations.component.html',
@@ -43,7 +48,9 @@ export class WorkstationsComponent implements OnInit {
   title = 'datatables';
   dtOptions: DataTables.Settings = {};
 
-  constructor(private workstationService: WorkstationsService, private dataSertvice: DataService) { }
+  constructor(private workstationService: WorkstationsService, private dataSertvice: DataService) { 
+    this.getData();
+  }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -52,16 +59,19 @@ export class WorkstationsComponent implements OnInit {
       processing: true
     };
 
+    
+  }
+
+  getData(){
     // Number of senstors
     this.workstationService.workstations(this.payload).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
-        (response);
         if(response.success){
           this.workstations = response.success;
         }
       },
       err => {
-        (err);
+        console.log(err);
       }
     );
 
@@ -71,35 +81,144 @@ export class WorkstationsComponent implements OnInit {
         try{
           if(response.success){
             this.workstationList = response.success;
-            (response);
             return true;
           }
         }catch{
-          ("Failed to get workstation list");
+          console.log("Failed to get workstation list");
         }
       },
       err => {
-        (err);
+        console.log(err);
       }
     );
 
     // workstation history
     this.workstationService.workstationHistory(this.body).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
-        (response);
         try{
           if(response.success){
             this.workstationData = response.success;
-            (response);
+            this.drawTrends()
           }
         }catch{
-          ("Failed to get workstation history");
+          console.log("Failed to get workstation history");
         }
       },
       err => {
-        (err);
+        console.log(err);
       }
     );
+
+  }
+  drawTrends(){
+    am4core.useTheme(am4themes_animated);
+
+    // Create chart instance
+    var chart = am4core.create("workstation-chart", am4charts.XYChart);
+    chart.dateFormatter.inputDateFormat = "yyyy-MMM-dd h:m:s";
+    chart.exporting.menu = new am4core.ExportMenu();
+
+    // Add data
+    var chart_data = this.workstationData;
+    console.log(chart_data);
+    // Create axis
+    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    function createWorkStationSeries(name, data, series_name) {
+
+    var series = chart.series.push(new am4charts.LineSeries());
+    series.data = data;
+    series.dataFields.valueY = series_name;
+    series.dataFields.dateX = "update_time";
+    series.tooltipText = "{name}\n{update_time}   Value: {series_name.formatNumber('#.00')}"
+    series.strokeWidth = 2;
+    series.name = name; 
+    series.minBulletDistance = 15;
+    series.tooltip.background.cornerRadius = 20;
+    series.tooltip.background.strokeOpacity = 0;
+    // series.tooltip.pointerOrientation = "vertical";
+    series.tooltip.label.minWidth = 40;
+    series.tooltip.label.minHeight = 40;
+    series.tooltip.label.textAlign = "middle";
+    series.tooltip.label.textValign = "middle";
+
+    // Make bullets grow on hover
+    var bullet = series.bullets.push(new am4charts.CircleBullet());
+    bullet.circle.strokeWidth = 2;
+    bullet.circle.radius = 4;
+    bullet.circle.fill = am4core.color("#fff");
+
+    var bullethover = bullet.states.create("hover");
+    bullethover.properties.scale = 1.3;
+
+    // Make a panning cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.xAxis = dateAxis;
+    chart.numberFormatter.numberFormat = "#.##";
+    // chart.cursor.behavior = "panXY"; // Make the graph to move instead of zooming in
+    //chart.cursor.snapToSeries = series;
+
+    // Create vertical scrollbar and place it before the value axis
+    chart.scrollbarY = new am4core.Scrollbar();
+    chart.scrollbarY.parent = chart.leftAxesContainer;
+    chart.scrollbarY.toBack();
+
+    // Create a horizontal scrollbar with previe and place it underneath the date axis
+    // chart.scrollbarX = new am4charts.XYChartScrollbar();
+    // chart.scrollbarX.series.push(series);
+    // chart.scrollbarX.parent = chart.bottomAxesContainer;
+
+    //dateAxis.start = 0.79; // used to zoom the trend on start up go towards the end
+    dateAxis.keepSelection = true;
+
+    // var bullet = series.bullets.push(new am4charts.CircleBullet());
+    // bullet.circle.stroke = am4core.color("#fff");
+    // bullet.circle.strokeWidth = 2;
+
+    return series;
+    }
+
+    var i,j;
+    for (i = 0; i < chart_data.length; i++){
+        var data = chart_data[i];
+        var ws_name = data.ws_name;
+        var ws_id = data.ws_id;
+        var trend_data = data.data
+
+        for (j = 0; j < trend_data.length; j++){
+            var ws_total_ram = trend_data.ws_total_ram;
+            var ws_used_ram = trend_data.ws_used_ram;
+            var ws_total_proc = trend_data.ws_total_proc;
+            var ws_used_proc = trend_data. ws_used_proc;
+            var ws_total_disk = trend_data.ws_total_disk;
+            var ws_used_disk = trend_data.ws_used_disk;
+            var ws_details = trend_data.ws_details;
+
+        }
+        var series_name:string =  ws_name ;
+        var k;
+        for (k =0; k <= 2; k++){
+            if (k ==0) {
+                var series_name = "RAM(" + ws_name +")";
+                var trend_name = "ws_ram_used_per";
+            }
+            else if (k ==1) {
+                var series_name = "Processor(" + ws_name +")";
+                var trend_name = "ws_proc_used_per";
+            }
+            else if (k ==2) {
+                var series_name = "Disk(" + ws_name +")";
+                var trend_name = "ws_disk_used_per";
+            }
+            createWorkStationSeries(series_name, trend_data, trend_name);
+        }
+    }
+
+    chart.cursor = new am4charts.XYCursor();
+    chart.legend = new am4charts.Legend();
+
   }
 
   addWorkstation(addDeviceForm: NgForm){
