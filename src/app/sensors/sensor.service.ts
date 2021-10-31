@@ -46,4 +46,9 @@ export class SensorService {
     return this.http.post<any>(AUTH_API + 'add/sensor', payload, { params: this.request_body, });
   }
 
+  deleteSensor(payload): Observable<any> {
+    //return this.http.post<any>(AUTH_API + 'sensor/data',{params: payload });
+    return this.http.post<any>(AUTH_API + 'delete/sensor', payload, { params: this.request_body, });
+  }
+
 }

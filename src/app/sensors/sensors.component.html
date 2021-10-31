@@ -89,7 +89,8 @@
           <h5 class="card-category" name="sensor_token">Sensor token: {{sensor.sensor_token}}</h5>
   
           <button class="btn btn-primary" name = "edit" value="{{sensor.sensor_id}}" >Edit</button>
-          <button type="submit" (click)="deleteSensor(sensor_id.value)" name = "sensor" value="{{sensor.sensor_id}}" class="btn btn-primary" >Delete</button>
+          <button type="submit" (click)="deleteSensor(sensor.sensor_id, sensor.sensor_name, sensor.sensor_token)" name = "sensor" class="btn btn-primary" data-bs-toggle="modal" 
+                  data-bs-target="#DeleteDeviceModal" >Delete</button>
             <!-- <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
         </div>
         <div class="card-footer">
@@ -97,6 +98,29 @@
             <i class="material-icons">access_time</i> updated 4 minutes ago
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Delete sensor Modal. Opens after clicking the button-->
+    <div class="modal fade" id="DeleteDeviceModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="DeleteDeviceModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <form #deleteDeviceForm="ngForm">
+          <div class="modal-header">
+          <h5 class="modal-title" id="DeleteDeviceModalLabel">Delete sensor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              Are you sure you want to delete the following sensor?
+              <label  class="col-sm-12 control-label" for="inputNotes">Sensor name: {{deleteSensorName}} </label>
+              <label  class="col-sm-12 control-label" for="inputNotes">Sensor ID: {{deleteSensorID}} </label>
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" >Delete sensor</button>
+          </div>
+          </form>
+      </div>
       </div>
     </div>
 

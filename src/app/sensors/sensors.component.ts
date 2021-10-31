@@ -40,6 +40,11 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   sensorList: any = [];
   sensorData: any = [];
   chartData: any =[];
+
+  deleteSensorID:any;
+  deleteSensorName:any;
+  deleteSensorToken:any;
+
   @Input() testData: any ;
 
   dtOptions: DataTables.Settings = {};
@@ -259,22 +264,24 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
 
       this.sensorService.addSensor(addSensorParams).pipe(takeUntil(this.destroy$)).subscribe(
         response => {
-          (response);
           if(response.success){
             this.sensorData = response.success;
-            (response);
             window.location.reload();
           }
         },
         err => {
-          (err);
+          console.log(err);
         }
       );
     }
    }
 
-   deleteSensor(sensor_id){
-    console.log(sensor_id);
+   deleteSensor(sensor_id, sensor_name, sensor_token){
+    this.deleteSensorID = sensor_id;
+    this.deleteSensorName = sensor_name;
+    this.deleteSensorToken = sensor_token;
+
+
    }
   
   localData(){
