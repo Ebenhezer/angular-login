@@ -51,4 +51,9 @@ export class SensorService {
     return this.http.post<any>(AUTH_API + 'delete/sensor', payload, { params: payload, });
   }
 
+  editSensor(payload): Observable<any> {
+    //return this.http.post<any>(AUTH_API + 'sensor/data',{params: payload });
+    return this.http.post<any>(AUTH_API + 'edit/sensor', payload, { params: payload, });
+  }
+
 }

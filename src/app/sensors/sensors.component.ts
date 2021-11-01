@@ -46,8 +46,9 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   deleteSensorToken:any;
 
   editSensorName:any;
+  editSensorId:any;
   editSensorToken:any;
-  editSensorUpdatePerios:any;
+  editSensorUpdatePeriod:any;
   editFormError = false;
 
   @Input() testData: any ;
@@ -307,22 +308,43 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
 
    }
   
-   setEditParameters(sensor_name, sensor_token, update_period){
+   setEditParameters(sensor_name, sensor_id, sensor_token, update_period){
     this.editSensorName = sensor_name;
+    this.editSensorId = sensor_id;
     this.editSensorToken = sensor_token;
-    this.editSensorUpdatePerios = update_period;
+    this.editSensorUpdatePeriod = update_period;
    }
+
    editSensor(editDeviceForm: NgForm){
     
     var sensor_name = editDeviceForm.value.sensor_name;
-    var sensor_token = editDeviceForm.value.sensor_type;
+    var sensor_token = editDeviceForm.value.sensor_token;
     var update_period = editDeviceForm.value.update_period;
 
     if(sensor_name == "" || sensor_token == "" || update_period == ""){
       this.editFormError = true;
     }
     else{
-        console.log("Editting..");
+        // Means no errors, so post the data
+
+        var editSensorParams = new HttpParams()
+        .append('api_key', this.apiKey)
+        .append('sensor_name', sensor_name)
+        .append('sensor_id', this.editSensorId)
+        .append('sensor_token', sensor_token)
+        .append('update_period', update_period);
+
+        this.sensorService.editSensor(editSensorParams).pipe(takeUntil(this.destroy$)).subscribe(
+            response => {
+              if(response.success){
+                this.sensorData = response.success;
+                window.location.reload();
+              }
+            },
+            err => {
+              console.log(err);
+            }
+          );
     }
     
    }
