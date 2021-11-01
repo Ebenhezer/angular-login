@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from './service/authentication/authentication.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'cf-root',
@@ -24,7 +25,8 @@ export class AppComponent {
     this.authenticationService.logout()
   }
 
-  setMinMaxTime(){
-    
+  setMinMaxTime(dateForm: NgForm){
+    console.log(dateForm.value.start_date);
+    console.log(dateForm.value.end_date);
   }
 }
