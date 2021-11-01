@@ -28,8 +28,8 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   };
   request_body = new HttpParams()
       .append('api_key', this.apiKey)
-      .append('min_epoch_tm_sec', '1633300722')
-      .append('max_epoch_tm_sec', '1999999999');
+      .append('min_epoch_tm_sec', sessionStorage.getItem("min_date"))
+      .append('max_epoch_tm_sec', sessionStorage.getItem("max_date"));
 
   body=JSON.stringify(this.request_body);
   
@@ -59,6 +59,8 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
               @Inject(PLATFORM_ID) private platformId, private zone: NgZone) { 
     
     this.getData();
+    console.log(sessionStorage.getItem("min_date"))
+    console.log(sessionStorage.getItem("max_date"))
   }
 
   ngOnInit(): void {
