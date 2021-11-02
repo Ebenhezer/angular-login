@@ -39,8 +39,11 @@ export class SwitchesComponent implements OnInit {
 
   editDeviceName:any;
   editDeviceToken:any;
-  editDeviceUpdatePerios:any;
+  editDeviceId:any;
+  editDeviceUpdatePeriod:any;
   editFormError = false;
+
+  response: string;
 
   dtOptions: DataTables.Settings = {};
 
@@ -173,21 +176,46 @@ export class SwitchesComponent implements OnInit {
 
    }
 
-   setEditParams(switch_name, switch_token, update_period){
+   setEditParams(switch_name, switch_id, switch_token, update_period){
     this.editDeviceName = switch_name;
     this.editDeviceToken = switch_token;
-    this.editDeviceUpdatePerios = update_period;
+    this.editDeviceUpdatePeriod = update_period;
+    this.editDeviceId = switch_id;
    }
    editDevice(editDeviceForm: NgForm){
     var switch_name = editDeviceForm.value.switch_name;
-    var switch_token = editDeviceForm.value.switch_type;
+    var switch_token = editDeviceForm.value.switch_token;
     var update_period = editDeviceForm.value.update_period;
 
     if(switch_name == "" || switch_token == "" || update_period == ""){
       this.editFormError = true;
+      this.response ="(E) Please fill all fields"
+    }
+    else if(switch_name == undefined || switch_token == undefined|| update_period == undefined){
+      this.editFormError = true;
+      this.response ="(U) Please fill all fields"
     }
     else{
-        console.log("Editting..");
+        // Means no errors, so post the data
+      var editDeviceParams = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('switch_name', switch_name)
+      .append('switch_id', this.editDeviceId)
+      .append('switch_token', switch_token)
+      .append('update_period', update_period);
+      this.switchService.editDevice(editDeviceParams).pipe(takeUntil(this.destroy$)).subscribe(
+          response => {
+            if(response.success){
+              window.location.reload();
+            }
+            else if(response.failed){
+              this.response = response.failed
+            }
+          },
+          err => {
+            console.log(err);
+          }
+        );
     }
    }
 

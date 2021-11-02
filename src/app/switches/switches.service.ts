@@ -50,4 +50,9 @@ export class SwitchesService {
     return this.http.post<any>(AUTH_API + 'delete/switch', payload, { params: payload, });
   }
 
+  editDevice(payload): Observable<any> {
+    //return this.http.post<any>(AUTH_API + 'sensor/data',{params: payload });
+    return this.http.post<any>(AUTH_API + 'edit/switch', payload, { params: payload, });
+  }
+
 }

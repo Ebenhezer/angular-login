@@ -200,11 +200,6 @@ export class GpsComponent implements OnInit {
     var gps_token = editDeviceForm.value.gps_token;
     var update_period = editDeviceForm.value.update_period;
 
-    console.log(gps_name);
-    console.log(gps_token);
-    console.log(update_period);
-    console.log(this.editDeviceId);
-
     if(gps_name == "" || gps_token == "" || update_period == ""){
       this.editFormError = true;
       this.response ="Please fill all fields"

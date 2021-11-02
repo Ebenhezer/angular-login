@@ -79,7 +79,7 @@
           <h5 class="card-category">Switch token: {{switch.switch_token}}</h5>
           <p class="card-category">
           
-          <button class="btn btn-primary" name = "edit" (click)="setEditParams(switch.switch_name, switch.switch_token, switch.update_period)"
+          <button class="btn btn-primary" name = "edit" (click)="setEditParams(switch.switch_name, switch.switch_id, switch.switch_token, switch.update_period)"
             name = "switch" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditDeviceModal" >Edit</button>
 
           <button type="submit" (click)="setDeleterParams(switch.switch_id, switch.switch_name, switch.switch_token)" name = "switch" class="btn btn-primary" data-bs-toggle="modal" 
@@ -128,13 +128,22 @@
           </div>
           <div class="modal-body">
               <div *ngIf="editFormError == true">
-                <h5 class="alert alert-danger">Please fill all fields</h5>
+                <h5 class="alert alert-danger">{{response}}</h5>
               </div>
+
+              <div class="form-group">
+                <label  class="col-sm-5 control-label">Switch ID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" [(ngModel)]="editDeviceId" disabled
+                    id="switch_id" name ="switch_id"/>
+                </div>
+              </div>
+
               <div class="form-group">
                   <label  class="col-sm-5 control-label"
                           for="inputNotes">Switch name</label>
                   <div class="col-sm-10">
-                      <input type="text" class="form-control" value="{{editDeviceName}}" required
+                      <input type="text" class="form-control" [(ngModel)]="editDeviceName" 
                       id="switch_name" name ="switch_name" />
                   </div>
               </div>
@@ -143,7 +152,7 @@
                 <label  class="col-sm-5 control-label"
                         for="inputNotes">Switch token</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" value="{{editDeviceToken}}" required
+                    <input type="text" class="form-control" [(ngModel)]="editDeviceToken"
                     id="switch_token" name ="switch_token"/>
                 </div>
               </div>
