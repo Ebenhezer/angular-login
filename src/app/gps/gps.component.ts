@@ -38,9 +38,12 @@ export class GpsComponent implements OnInit {
   deleteDeviceToken:any;
 
   editDeviceName:any;
+  editDeviceId:any;
   editDeviceToken:any;
-  editDeviceUpdatePerios:any;
+  editDeviceUpdatePeriod:any;
   editFormError = false;
+
+  response: string;
 
   title = 'datatables';
   dtOptions: DataTables.Settings = {};
@@ -59,16 +62,15 @@ export class GpsComponent implements OnInit {
       response => {
         try{
           if(response.success){
-            (response);
             this.gps = response.success;
             return true;
           }
         }catch{
-          ("Failed to count gps");
+          console.log("Failed to count gps");
         }
       },
       err => {
-        (err);
+        console.log(err);
       }
     );
 
@@ -78,15 +80,14 @@ export class GpsComponent implements OnInit {
         try{
           if(response.success){
             this.gpsList = response.success;
-            (response);
             return true;
           }
         }catch{
-          ("Failed to get gps list");
+          console.log("Failed to get gps list");
         }
       },
       err => {
-        (err);
+        console.log(err);
       }
     );
 
@@ -96,15 +97,14 @@ export class GpsComponent implements OnInit {
         try{
           if(response.success){
             this.gpsData = response.success;
-            (response);
           }
         }catch{
-          ("Failed to get GPS history");
+          console.log("Failed to get GPS history");
         }
         
       },
       err => {
-        (err)
+        console.log(err)
       }
     );
   }
@@ -188,21 +188,53 @@ export class GpsComponent implements OnInit {
 
    }
 
-   setEditParams(switch_name, switch_token, update_period){
-    this.editDeviceName = switch_name;
-    this.editDeviceToken = switch_token;
-    this.editDeviceUpdatePerios = update_period;
+   setEditParams(gps_name, gps_id, gps_token, update_period){
+    this.editDeviceName = gps_name;
+    this.editDeviceToken = gps_token;
+    this.editDeviceId = gps_id;
+    this.editDeviceUpdatePeriod = update_period;
    }
+
    editDevice(editDeviceForm: NgForm){
     var gps_name = editDeviceForm.value.gps_name;
-    var gps_token = editDeviceForm.value.gps_type;
+    var gps_token = editDeviceForm.value.gps_token;
     var update_period = editDeviceForm.value.update_period;
+
+    console.log(gps_name);
+    console.log(gps_token);
+    console.log(update_period);
+    console.log(this.editDeviceId);
 
     if(gps_name == "" || gps_token == "" || update_period == ""){
       this.editFormError = true;
+      this.response ="Please fill all fields"
+    }
+    else if(gps_name == undefined || gps_token == undefined|| update_period == undefined){
+      this.editFormError = true;
+      this.response ="Please fill all fields"
     }
     else{
-        console.log("Editting..");
+      // Means no errors, so post the data
+      var editDeviceParams = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('gps_name', gps_name)
+      .append('gps_id', this.editDeviceId)
+      .append('gps_token', gps_token)
+      .append('update_period', update_period);
+      this.gpsService.editDevice(editDeviceParams).pipe(takeUntil(this.destroy$)).subscribe(
+          response => {
+            console.log(response);
+            if(response.success){
+              window.location.reload();
+            }
+            else if(response.failed){
+              this.response = response.failed
+            }
+          },
+          err => {
+            console.log(err);
+          }
+        );
     }
    }
 

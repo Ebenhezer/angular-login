@@ -91,7 +91,7 @@
           <h5 class="card-category">GPS token: {{gps.gps_token}}</h5>
           <p class="card-category">
 
-          <button class="btn btn-primary" name = "edit" (click)="setEditParams(gps.gps_name, gps.gps_token, gps.update_period)"
+          <button class="btn btn-primary" name = "edit" (click)="setEditParams(gps.gps_name, gps.gps_id, gps.gps_token, gps.update_period)"
             name = "gps" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditDeviceModal" >Edit</button>
 
           <button type="submit" (click)="setDeleterParams(gps.gps_id, gps.gps_name, gps.gps_token)" name = "gps" class="btn btn-primary" data-bs-toggle="modal" 
@@ -139,13 +139,22 @@
           </div>
           <div class="modal-body">
               <div *ngIf="editFormError == true">
-                <h5 class="alert alert-danger">Please fill all fields</h5>
+                <h5 class="alert alert-danger">{{response}}</h5>
               </div>
+
+              <div class="form-group">
+                <label  class="col-sm-5 control-label">GPS ID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" value="{{editDeviceId}}" required disabled
+                    id="gps_id" name ="gps_id"/>
+                </div>
+              </div>
+              
               <div class="form-group">
                   <label  class="col-sm-5 control-label"
                           for="inputNotes">GPS name</label>
                   <div class="col-sm-10">
-                      <input type="text" class="form-control" value="{{editDeviceName}}" required
+                      <input type="text" class="form-control" [(ngModel)]="editDeviceName"  required 
                       id="gps_name" name ="gps_name" />
                   </div>
               </div>
@@ -154,7 +163,7 @@
                 <label  class="col-sm-5 control-label"
                         for="inputNotes">GPS token</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" value="{{editDeviceToken}}" required
+                    <input type="text" class="form-control" [(ngModel)]= "editDeviceToken" required 
                     id="gps_token" name ="gps_token"/>
                 </div>
               </div>
@@ -162,7 +171,7 @@
               <div class="form-group">
                   <label for = "type" class = "col-sm-5 control-label">Expected update period</label>
                   <div class = "col-sm-10">
-                      <select class = "form-select" id = "update_period" name="update_period" ngModel>
+                      <select class = "form-select" id = "update_period" name="update_period" [(ngModel)] ="editDeviceUpdatePeriod">
                           <!-- <option value="5">30 seconds</option> -->
                           <option value="60">1 minute</option>
                           <option value="180">3 minutes</option>

@@ -337,7 +337,6 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
         this.sensorService.editSensor(editSensorParams).pipe(takeUntil(this.destroy$)).subscribe(
             response => {
               if(response.success){
-                this.sensorData = response.success;
                 window.location.reload();
               }
             },
