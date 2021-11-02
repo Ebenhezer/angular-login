@@ -45,11 +45,13 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
   deleteSensorName:any;
   deleteSensorToken:any;
 
-  editSensorName:any;
-  editSensorId:any;
-  editSensorToken:any;
-  editSensorUpdatePeriod:any;
+  editDeviceName:any;
+  editDeviceToken:any;
+  editDeviceId:any;
+  editDeviceUpdatePeriod:any;
   editFormError = false;
+
+  response: string;
 
   @Input() testData: any ;
 
@@ -309,10 +311,10 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
    }
   
    setEditParameters(sensor_name, sensor_id, sensor_token, update_period){
-    this.editSensorName = sensor_name;
-    this.editSensorId = sensor_id;
-    this.editSensorToken = sensor_token;
-    this.editSensorUpdatePeriod = update_period;
+    this.editDeviceName = sensor_name;
+    this.editDeviceId = sensor_id;
+    this.editDeviceToken = sensor_token;
+    this.editDeviceUpdatePeriod = update_period;
    }
 
    editSensor(editDeviceForm: NgForm){
@@ -324,13 +326,17 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
     if(sensor_name == "" || sensor_token == "" || update_period == ""){
       this.editFormError = true;
     }
+    else if(sensor_name == undefined || sensor_token == undefined|| update_period == undefined){
+        this.editFormError = true;
+        this.response ="(U) Please fill all fields"
+      }
     else{
         // Means no errors, so post the data
 
         var editSensorParams = new HttpParams()
         .append('api_key', this.apiKey)
         .append('sensor_name', sensor_name)
-        .append('sensor_id', this.editSensorId)
+        .append('sensor_id', this.editDeviceId)
         .append('sensor_token', sensor_token)
         .append('update_period', update_period);
 
@@ -338,6 +344,10 @@ export class SensorsComponent implements OnInit, AfterViewInit, OnChanges {
             response => {
               if(response.success){
                 window.location.reload();
+              }
+              else if(response.failed){
+                this.editFormError = true;
+                this.response = response.failed
               }
             },
             err => {
