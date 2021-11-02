@@ -41,9 +41,12 @@ export class WorkstationsComponent implements OnInit {
   deleteDeviceToken:any;
 
   editDeviceName:any;
+  editDeviceId:any;
   editDeviceToken:any;
-  editDeviceUpdatePerios:any;
+  editDeviceUpdatePeriod:any;
   editFormError = false;
+
+  response: string;
 
   title = 'datatables';
   dtOptions: DataTables.Settings = {};
@@ -287,10 +290,11 @@ export class WorkstationsComponent implements OnInit {
 
    }
 
-   setEditParams(ws_name, ws_token, update_period){
+   setEditParams(ws_name, ws_id, ws_token, update_period){
     this.editDeviceName = ws_name;
     this.editDeviceToken = ws_token;
-    this.editDeviceUpdatePerios = update_period;
+    this.editDeviceId = ws_id;
+    this.editDeviceUpdatePeriod = update_period;
    }
    editDevice(editDeviceForm: NgForm){
     var ws_name = editDeviceForm.value.ws_name;
@@ -300,8 +304,33 @@ export class WorkstationsComponent implements OnInit {
     if(ws_name == "" || ws_token == "" || update_period == ""){
       this.editFormError = true;
     }
+    else if(ws_name == undefined || ws_token == undefined|| update_period == undefined){
+      this.editFormError = true;
+      this.response ="(U) Please fill all fields"
+    }
     else{
-        console.log("Editting..");
+      // Means no errors, so post the data
+      var editDeviceParams = new HttpParams()
+      .append('api_key', this.apiKey)
+      .append('ws_name', ws_name)
+      .append('ws_id', this.editDeviceId)
+      .append('ws_token', ws_token)
+      .append('update_period', update_period);
+      this.workstationService.editDevice(editDeviceParams).pipe(takeUntil(this.destroy$)).subscribe(
+          response => {
+            console.log(response);
+            if(response.success){
+              window.location.reload();
+            }
+            else if(response.failed){
+              this.editFormError = true;
+              this.response = response.failed;
+            }
+          },
+          err => {
+            console.log(err);
+          }
+        );
     }
    }
 

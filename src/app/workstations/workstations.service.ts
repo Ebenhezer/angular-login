@@ -49,4 +49,9 @@ export class WorkstationsService {
     return this.http.post<any>(AUTH_API + 'delete/ws', payload, { params: payload, });
   }
 
+  editDevice(payload): Observable<any> {
+    //return this.http.post<any>(AUTH_API + 'sensor/data',{params: payload });
+    return this.http.post<any>(AUTH_API + 'edit/ws', payload, { params: payload, });
+  }
+
 }
